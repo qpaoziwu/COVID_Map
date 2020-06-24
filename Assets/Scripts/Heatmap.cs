@@ -43,9 +43,9 @@ public class Heatmap : MonoBehaviour
         This is pre allocated larger than we need so we dont need to reallocate on gpu/cpu, having to increase this array requires allocating on both PUs
     */
     [SerializeField]
-    private HeatData[] data = new HeatData[100];
+    private HeatData[] data = new HeatData[300];
     [SerializeField]
-    private StoredHeatData[] storedData = new StoredHeatData[100];
+    private StoredHeatData[] storedData = new StoredHeatData[300];
 
     //Material for Shader
     public Material material;
@@ -57,7 +57,7 @@ public class Heatmap : MonoBehaviour
     void OnEnable() 
     {
         //Time.timeScale = .1f;
-        buffer = new ComputeBuffer(100, HeatData.size); //We can change count later but for now 100 per buffer
+        buffer = new ComputeBuffer(300, HeatData.size); //We can change count later but for now 100 per buffer
         material.SetBuffer("_HeatData", buffer); //Sets it up on the shader
 
         //Hardcoded random test set
