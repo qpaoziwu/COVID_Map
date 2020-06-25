@@ -52,7 +52,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edd53bd701618cf48a8ce9dfe1d4aa9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radiusRatio: 2
+  radiusRatio: 2.5
   intensityRatio: 50
   data:
   - position: {x: 0, y: 0, z: 0}
@@ -712,4 +712,5 @@ MonoBehaviour:
     radius: 0
     intensity: 0
   material: {fileID: 2100000, guid: 83ce5bec56df1834da3e5847d9accc96, type: 2}
-  count: 50
+  count: 300
+  randomizePoints: 0
