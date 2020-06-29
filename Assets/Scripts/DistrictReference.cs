@@ -9,6 +9,9 @@ public class DistrictReference : MonoBehaviour
     [SerializeField]
     private GameObject BorderFolder; //Border from scene
     [SerializeField]
+    private GameObject PointFolder; //Border from scene
+
+    [SerializeField]
     public List<GameObject> Districts = new List<GameObject>(); //Stored Districts 
     [SerializeField]
     public List<GameObject> Borders = new List<GameObject>(); //Stored Borders 
@@ -21,7 +24,7 @@ public class DistrictReference : MonoBehaviour
         public string distName;
         public GameObject Dist;
         public GameObject Border;
-        public int cases;
+        public List<Transform> Points = new List<Transform>();
     }
 
     void Awake()
@@ -45,12 +48,31 @@ public class DistrictReference : MonoBehaviour
                 d.distName = Districts[i].name;
                 d.Dist = Districts[i];
                 d.Border = Borders[i];
-                d.cases = 0;
                 DistList.Add(d);
+            }
+            //
+            foreach (District a in DistList)
+            {
+                foreach (Transform t in a.Dist.transform)
+                {
+
+                    t.gameObject.name = a.Points.Count + " " + a.distName;
+                    a.Points.Add(t);
+
+                }
+                for (int i = 0; i < a.Points.Count; i++)
+                {
+                    a.Points[i].parent = PointFolder.transform;
+                }
             }
         }
     }
+
+    //AOE Effect
+
 }
+
+
 //DistList = new District[name,Dist,Border,cases];
 
 //Districts.GetComponent<Renderer>();
