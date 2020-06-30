@@ -11,6 +11,8 @@ public class DistrictReference : MonoBehaviour
     [SerializeField]
     public GameObject PointFolder; //Border from scene
 
+    public int generatedPoints;
+
     [SerializeField]
     public List<GameObject> Districts = new List<GameObject>(); //Stored Districts 
     [SerializeField]
@@ -18,7 +20,6 @@ public class DistrictReference : MonoBehaviour
     [SerializeField]
     public List<DistrictRef> RefList = new List<DistrictRef>(); //Stored List 
 
-    public int generatedPoints;
 
     [SerializeField, System.Serializable]
     public class DistrictRef
@@ -34,7 +35,8 @@ public class DistrictReference : MonoBehaviour
     {
         for (int i = 0; i < RefList.Count; i++)
         {
-            if (name == RefList[i].distName) {
+            if (RefList[i].distName == name)
+            {
                 return RefList[i];
             }
             break;
@@ -42,6 +44,18 @@ public class DistrictReference : MonoBehaviour
         return null;
     }
 
+    public List<Transform> FindPointsByName(string name)
+    {
+        for (int i = 0; i < RefList.Count; i++)
+        {
+            if (RefList[i].distName== name)
+            {
+                return RefList[i].Points;
+            }
+            break;
+        }
+        return null;
+    }
 
     void Awake()
     {
@@ -60,25 +74,28 @@ public class DistrictReference : MonoBehaviour
             //Storing all the infos into one list
             for (int i = 0; i < Districts.Count; i++)
             {
-                DistrictRef d = new DistrictRef();
-                d.distName = Districts[i].name;
-                d.worldPos = Districts[i].transform.position;
-                d.Dist = Districts[i];
-                d.Border = Borders[i];
+                DistrictRef d = new DistrictRef
+                {
+                    distName = Districts[i].name,
+                    worldPos = Districts[i].transform.position,
+                    Dist = Districts[i],
+                    Border = Borders[i]
+                };
                 RefList.Add(d);
             }
-            //
+            //Storing Points from scene
             foreach (DistrictRef a in RefList)
             {
                 foreach (Transform t in a.Dist.transform)
                 {
-
-                    t.gameObject.name = a.Points.Count + " " + a.distName;
+                    int c = a.Points.Count+1;
+                    //Rename Points and Storing Points
+                    t.gameObject.name = a.distName +" " + c;
                     a.Points.Add(t);
-
                 }
                 for (int i = 0; i < a.Points.Count; i++)
                 {
+                    //Moves Points to PointFolder
                     generatedPoints++;
                     a.Points[i].parent = PointFolder.transform;
                 }
@@ -86,8 +103,6 @@ public class DistrictReference : MonoBehaviour
 
         }
     }
-
-    //AOE Effect
 
 }
 
