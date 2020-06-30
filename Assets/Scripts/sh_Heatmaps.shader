@@ -10,7 +10,8 @@
 		Blend SrcAlpha OneMinusSrcAlpha
 
 		Pass {
-			ZWrite Off Cull Off
+			ZWrite Off 
+			Cull Off
 			CGPROGRAM
 			#pragma vertex vert             
 			#pragma fragment frag

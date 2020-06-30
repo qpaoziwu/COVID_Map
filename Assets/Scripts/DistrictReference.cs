@@ -5,27 +5,43 @@ using UnityEngine;
 public class DistrictReference : MonoBehaviour
 {
     [SerializeField]
-    private GameObject DistrictFolder; //Districts from scene
+    public GameObject DistrictFolder; //Districts from scene
     [SerializeField]
-    private GameObject BorderFolder; //Border from scene
+    public GameObject BorderFolder; //Border from scene
     [SerializeField]
-    private GameObject PointFolder; //Border from scene
+    public GameObject PointFolder; //Border from scene
 
     [SerializeField]
     public List<GameObject> Districts = new List<GameObject>(); //Stored Districts 
     [SerializeField]
     public List<GameObject> Borders = new List<GameObject>(); //Stored Borders 
     [SerializeField]
-    public List<District> DistList = new List<District>(); //Stored List 
+    public List<DistrictRef> RefList = new List<DistrictRef>(); //Stored List 
+
+    public int generatedPoints;
 
     [SerializeField, System.Serializable]
-    public class District
+    public class DistrictRef
     {
         public string distName;
+        public Vector3 worldPos;
         public GameObject Dist;
         public GameObject Border;
         public List<Transform> Points = new List<Transform>();
     }
+
+    public DistrictRef FindDistByName(string name)
+    {
+        for (int i = 0; i < RefList.Count; i++)
+        {
+            if (name == RefList[i].distName) {
+                return RefList[i];
+            }
+            break;
+        }
+        return null;
+    }
+
 
     void Awake()
     {
@@ -44,14 +60,15 @@ public class DistrictReference : MonoBehaviour
             //Storing all the infos into one list
             for (int i = 0; i < Districts.Count; i++)
             {
-                District d = new District();
+                DistrictRef d = new DistrictRef();
                 d.distName = Districts[i].name;
+                d.worldPos = Districts[i].transform.position;
                 d.Dist = Districts[i];
                 d.Border = Borders[i];
-                DistList.Add(d);
+                RefList.Add(d);
             }
             //
-            foreach (District a in DistList)
+            foreach (DistrictRef a in RefList)
             {
                 foreach (Transform t in a.Dist.transform)
                 {
@@ -62,9 +79,11 @@ public class DistrictReference : MonoBehaviour
                 }
                 for (int i = 0; i < a.Points.Count; i++)
                 {
+                    generatedPoints++;
                     a.Points[i].parent = PointFolder.transform;
                 }
             }
+
         }
     }
 
