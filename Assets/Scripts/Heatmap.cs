@@ -80,6 +80,7 @@ public class Heatmap : MonoBehaviour
             storedData[i].radius = data[i].radius;
             storedData[i].intensity = data[i].intensity;
         }
+        //SyncPointsByDistrict();
 
         buffer.SetData(data); //SendsToShader, ***SETDATA() to change data
     }
@@ -97,6 +98,7 @@ public class Heatmap : MonoBehaviour
           Logic: Loop X amount of points where X is # of the DistList.Point.Count + previous counted points;
           After each loop, move to next district.
     */
+
     void SyncPointsByDistrict()
     {
         //Reset all index#
@@ -112,7 +114,7 @@ public class Heatmap : MonoBehaviour
             {
                 //Set points
                 data[x].radius = intTracker * radiusRatio*0.01f;
-                data[x].intensity = indexForDistricts * intensityRatio*0.00001f * Mathf.Abs(Mathf.Clamp(Mathf.Sin(Time.time), 0.2f, 1f * Mathf.PerlinNoise(1f, 1f)));
+                data[x].intensity = indexForDistricts * intensityRatio*0.01f * Mathf.Abs(Mathf.Clamp(Mathf.Sin(Time.time), 0.2f, 1f * Mathf.PerlinNoise(1f, 1f)));
 
                 //if the index# is within the array size, keep counting
                 if (indexForPoints < count)
@@ -127,7 +129,7 @@ public class Heatmap : MonoBehaviour
             intTracker += Reference.RefList[indexForDistricts].Points.Count;
             }
         }
-
+    
     }
 
     //Statically Randomize Every Point 
