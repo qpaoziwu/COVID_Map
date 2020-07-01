@@ -13,18 +13,21 @@ public class DistrictReference : MonoBehaviour
 
     public int generatedPoints;
 
+    public cs_DataSets1 dataset1;
+
+    [SerializeField]
+    public List<DistrictRef> RefList = new List<DistrictRef>(); //Stored List 
     [SerializeField]
     public List<GameObject> Districts = new List<GameObject>(); //Stored Districts 
     [SerializeField]
     public List<GameObject> Borders = new List<GameObject>(); //Stored Borders 
-    [SerializeField]
-    public List<DistrictRef> RefList = new List<DistrictRef>(); //Stored List 
 
 
     [SerializeField, System.Serializable]
     public class DistrictRef
     {
         public string distName;
+        public int caseCount;
         public Vector3 worldPos;
         public GameObject Dist;
         public GameObject Border;
@@ -42,6 +45,14 @@ public class DistrictReference : MonoBehaviour
             break;
         }
         return null;
+    }
+
+    public void UpdateCaseCount()
+    {
+        for (int c = 0; c < RefList.Count - 1; c++)
+        {
+            RefList[c].caseCount = dataset1.m_pulledData[c].m_caseCount;
+        }
     }
 
     public List<Transform> FindPointsByName(string name)
@@ -100,10 +111,8 @@ public class DistrictReference : MonoBehaviour
                     a.Points[i].parent = PointFolder.transform;
                 }
             }
-
         }
     }
-
 }
 
 

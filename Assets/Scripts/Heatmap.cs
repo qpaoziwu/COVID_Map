@@ -4,6 +4,14 @@ using UnityEngine; //Needed for struct layour
 
 public class Heatmap : MonoBehaviour
 {
+    public enum DisplayMode
+    {
+        RealtimeDataSet,
+        TestDataSet
+    };
+    [SerializeField]
+    public DisplayMode Mode = DisplayMode.RealtimeDataSet;
+
     public DistrictReference Reference;
 
     //Material for Shader
@@ -30,7 +38,7 @@ public class Heatmap : MonoBehaviour
         [Range(0f, 200f)]
         public float intensity;
         public static int size = System.Runtime.InteropServices.Marshal.SizeOf(typeof(HeatData)); //Needed for compute buffer
-    } 
+    }
 
     [System.Serializable, SerializeField]
     private struct StoredHeatData                     //Initial position of each point
@@ -40,7 +48,7 @@ public class Heatmap : MonoBehaviour
         public float radius;
         [Range(0f, 200f)]
         public float intensity;
-    } 
+    }
 
     [SerializeField]
     private HeatData[] data;                          //Data that are sent to the GPU
@@ -104,34 +112,49 @@ public class Heatmap : MonoBehaviour
         //Reset all index#
         indexForPoints = 0;
         indexForDistricts = 0;
-        intTracker = Reference.RefList[indexForDistricts].Points.Count-1;
+        intTracker = Reference.RefList[indexForDistricts].Points.Count - 1;
 
         //Loop thru Districts, and move index# to next district-index# after every loop 
-        for (int d = indexForDistricts; d < Reference.RefList.Count+ intTracker; d++)
+        for (int d = indexForDistricts; d < Reference.RefList.Count + intTracker; d++)
         {
             //Loop thru points, every new loop moves index# to next point-set
             for (int x = indexForPoints; x < intTracker; x++)
             {
                 //Set points
-                data[x].radius = intTracker * radiusRatio*0.01f;
-                data[x].intensity = indexForDistricts * intensityRatio*0.01f * Mathf.Abs(Mathf.Clamp(Mathf.Sin(Time.time), 0.2f, 1f * Mathf.PerlinNoise(1f, 1f)));
+                data[x].radius = CaseCount(indexForDistricts) * radiusRatio * 0.1f;
+                data[x].intensity = 1 * intensityRatio * 0.1f;
+                //data[x].intensity = 1 * intensityRatio * 0.01f * Mathf.Abs(Mathf.Clamp(Mathf.Sin(Time.time), 0.2f, 1f * Mathf.PerlinNoise(1f, 1f)));
 
                 //if the index# is within the array size, keep counting
                 if (indexForPoints < count)
                 {
-                indexForPoints++;
+                    indexForPoints++;
                 }
             }
             //if the index# is within the array size, keep counting
-            if (indexForDistricts < Reference.RefList.Count-1)
+            if (indexForDistricts < Reference.RefList.Count - 1)
             {
-            indexForDistricts++;
-            intTracker += Reference.RefList[indexForDistricts].Points.Count;
+                indexForDistricts++;
+                intTracker += Reference.RefList[indexForDistricts].Points.Count;
             }
         }
-    
+
     }
 
+    private int CaseCount(int i)
+    {
+        if ((int)Mode == 0)
+        {
+            return Reference.RefList[i].caseCount;
+        }
+        if ((int)Mode == 1)
+        {
+            return indexForDistricts;
+        }
+        return 0;
+    }
+
+    
     //Statically Randomize Every Point 
     void ReadEveryPoints()
     {

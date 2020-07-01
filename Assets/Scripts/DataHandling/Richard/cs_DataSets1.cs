@@ -10,8 +10,10 @@ public class cs_DataSets1 : MonoBehaviour
     /// RICHARD all you need is to grab the case count from m_pulledData, it will apear in the inspector.
     /// the Data Manager is basically an extra step if we use gameobjects my way so it's not relevant to you
     /// </summary>
-    public List<DataContainer1> m_pulledData;
     public string m_csvURL;
+    public DistrictReference districtReference;
+    public List<DataContainer1> m_pulledData;
+
 
     //public cs_DateConfirm m_dateSelect;
 
@@ -86,6 +88,7 @@ public class cs_DataSets1 : MonoBehaviour
                             int p_amount = 0;
                             int.TryParse(p_row[y], out p_amount);
                             p_newData.m_caseCount = p_amount;
+
                         }
 
                     }
@@ -93,8 +96,10 @@ public class cs_DataSets1 : MonoBehaviour
                     //add all parsed data to list
                     m_pulledData.Add(p_newData);
                     m_pulledData.Sort((x, y) => y.m_districtName.CompareTo(x.m_districtName));
+
                 }
             }
+            districtReference.UpdateCaseCount();
             //}
             #endregion
             #region Chosen Date

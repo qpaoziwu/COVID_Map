@@ -68,7 +68,7 @@ public class GenerateMatrix : MonoBehaviour
     {
         if (scatter)
         {
-            return new Vector3(spawnOffset * x + Random.Range(-spawnOffset, spawnOffset), spawnOffset * z, spawnOffset * y + Random.Range(-spawnOffset, spawnOffset)) + ReferencePoint.transform.position;
+            return new Vector3(spawnOffset * x + Random.Range(-spawnOffset * .5f, spawnOffset * .5f), spawnOffset * z, spawnOffset * y + Random.Range(-spawnOffset * .5f, spawnOffset * .5f)) + ReferencePoint.transform.position;
         }
         else
             return new Vector3(spawnOffset * x, spawnOffset * z, spawnOffset * y) + ReferencePoint.transform.position;
