@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class cs_DistrictManager : MonoBehaviour
+public class cs_DistrictManager1 : MonoBehaviour
 {
-    public static cs_DistrictManager Instance;
+    public static cs_DistrictManager1 Instance;
 
     //Somewhere to place all districts
     [SerializeField]
@@ -13,11 +13,11 @@ public class cs_DistrictManager : MonoBehaviour
 
     //the actual districts
     [SerializeField]
-    public List<CityDistrict> m_cityDistricts = new List<CityDistrict>();
+    public List<CityDistrict1> m_cityDistricts = new List<CityDistrict1>();
 
     //district specific information
     [SerializeField, System.Serializable]
-    public class CityDistrict
+    public class CityDistrict1
     {
         public string m_districtName;
         public scr_District m_districtLocation;
@@ -31,7 +31,7 @@ public class cs_DistrictManager : MonoBehaviour
 
         for (int i = 0; i < Districts.Count; i++)
         {
-            CityDistrict city = new CityDistrict();
+            CityDistrict1 city = new CityDistrict1();
             city.m_districtName = Districts[i].name;
             city.m_districtLocation = Districts[i];
             m_cityDistricts.Add(city);
@@ -42,7 +42,7 @@ public class cs_DistrictManager : MonoBehaviour
     //fills each district with information
     public void AssignTexts()
     {
-        foreach (CityDistrict item in m_cityDistricts)
+        foreach (CityDistrict1 item in m_cityDistricts)
         {
             item.m_districtLocation.AssignMe(item.m_districtCases, item.m_districtName);
         }
