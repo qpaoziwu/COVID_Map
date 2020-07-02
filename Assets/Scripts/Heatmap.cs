@@ -6,11 +6,12 @@ public class Heatmap : MonoBehaviour
 {
     public enum DisplayMode
     {
-        RealtimeDataSet,
+        RealtimeDataSetStatic,
+        RealtimeDataSetAnimated,
         TestDataSet
     };
     [SerializeField]
-    public DisplayMode Mode = DisplayMode.RealtimeDataSet;
+    public DisplayMode Mode = DisplayMode.RealtimeDataSetStatic;
 
     public DistrictReference Reference;
 
@@ -122,8 +123,8 @@ public class Heatmap : MonoBehaviour
             {
                 //Set points
                 data[x].radius = CaseCount(indexForDistricts) * radiusRatio * 0.1f;
-                data[x].intensity = 1 * intensityRatio * 0.1f;
-                //data[x].intensity = 1 * intensityRatio * 0.01f * Mathf.Abs(Mathf.Clamp(Mathf.Sin(Time.time), 0.2f, 1f * Mathf.PerlinNoise(1f, 1f)));
+                data[x].intensity = Intensity();
+                //data[x].intensity = 1 * intensityRatio * 0.1f * Mathf.Abs(Mathf.Clamp(Mathf.Sin(Time.time), 0.2f, 1f * Mathf.PerlinNoise(1f, 1f)));
 
                 //if the index# is within the array size, keep counting
                 if (indexForPoints < count)
@@ -140,14 +141,25 @@ public class Heatmap : MonoBehaviour
         }
 
     }
-
-    private int CaseCount(int i)
+    private float Intensity()
     {
         if ((int)Mode == 0)
         {
+            return 1 * intensityRatio * 0.1f;
+        }
+        if ((int)Mode == 1 || (int)Mode == 2)
+        {
+            return 1 * intensityRatio * 0.1f * Mathf.Abs(Mathf.Clamp(Mathf.Sin(Time.time), 0.1f, 0.8f ));
+        }
+        return 0;
+    }
+    private int CaseCount(int i)
+    {
+        if ((int)Mode == 0|| (int)Mode == 1)
+        {
             return Reference.RefList[i].caseCount;
         }
-        if ((int)Mode == 1)
+        if ((int)Mode == 2)
         {
             return indexForDistricts;
         }
