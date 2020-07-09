@@ -16,16 +16,16 @@ using UnityEngine.UI;
 /// </summary>
 public class cs_CSVData : MonoBehaviour
 {
-    [Tooltip("Insert the link to csv here")]
+    [Tooltip("Insert the link to the csv here")]
     public string m_CSVUrl;
 
-    [Tooltip("Insert the timeline slider\nBe sure to use the On Value Changed(Single) event on Slider to call the SelectedData() method")]
+    [Tooltip("Insert the timeline Slider\nSet the ''Direction'' to ''Right To Left''\nSet the ''Min Value'' to 0\nCheck the ''Whole Numbers'' box\nUse the ''On Value Changed(Single)'' event on the slider to call the ''SelectedData()'' method from this script")]
     public Slider timeline;
 
-    [Tooltip("Inter text field to display the selected date\nMust be Text Mesh Pro")]
+    [Tooltip("Insert text field to display the selected date\nMust be Text Mesh Pro")]
     public TMPro.TextMeshProUGUI sliderText;
 
-    [Tooltip("All of the ''Case Count MM/DD/ YYYY'' columns")]
+    [Tooltip("All of the ''Case Count MM/DD/YYYY'' columns")]
     public List<string> m_CSVDates;
 
     [Tooltip("All districts with their names, selected date, selected case count, and all of the ''Case Count MM/DD/YYYY''s specific to that district")]
@@ -116,8 +116,8 @@ public class cs_CSVData : MonoBehaviour
 
         foreach (Districts p_item in m_CSVData)
         {
-            p_item.m_casesBySelectedDate = p_item.m_caseCountBySelectedDate[(int)timeline.value].m_cases;
-            p_item.m_dateSelected = p_item.m_caseCountBySelectedDate[(int)timeline.value].m_date;
+            p_item.m_casesBySelectedDate = p_item.m_caseCountBySelectedDate[(int)timeline.value].m_cases;       // updates the currently selected cases for all districts
+            p_item.m_dateSelected = p_item.m_caseCountBySelectedDate[(int)timeline.value].m_date;       // updates the currently selected date for all districts
         }
     }
 }
@@ -129,10 +129,10 @@ public class cs_CSVData : MonoBehaviour
 [System.Serializable]
 public class Districts
 {
-    public string m_districtName;
-    public string m_dateSelected;
-    public int m_casesBySelectedDate;
-    public List<Cases> m_caseCountBySelectedDate;
+    public string m_districtName;       // this district's name
+    public string m_dateSelected;       // the currently selected date
+    public int m_casesBySelectedDate;       // the case count for the selected date in the district
+    public List<Cases> m_caseCountBySelectedDate; // a list of all of the cases per date for this district
 }
 
 /// <summary>
@@ -141,6 +141,6 @@ public class Districts
 [System.Serializable]
 public class Cases
 {
-    public string m_date;
-    public int m_cases;
+    public string m_date;       // the date of the data
+    public int m_cases;     // the cases for this date in this district
 }
