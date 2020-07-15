@@ -5,36 +5,34 @@ using UnityEngine;
 public class BorderVFXHandler : MonoBehaviour
 {
     [SerializeField]
-    private ParticleSystem BorderVFX;
+    private ParticleSystem BorderVFX = null;
     [SerializeField]
-    private DistrictReference Reference;
-    
+    private DistrictReference Reference = null;
+
     void Start()
     {
         DisableVFX();
     }
 
-    private void Update() {
+    private void Update()
+    {
         MouseInput();
     }
     void MouseInput()
     {
-        if(Input.GetMouseButtonDown(0))
-        {   
-            LayerMask DistrictLayer = 8;
-            RaycastHit hit; 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
-            if(Physics.Raycast (ray, out hit, 1000f, LayerMask.GetMask("Districts")))
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit, 1000f, LayerMask.GetMask("Districts")))
             {
-                if(Reference.Districts.Contains(hit.transform.gameObject))
+                if (Reference.Districts.Contains(hit.transform.gameObject))
                 {
-                    print(hit.transform.gameObject);
-                    print(Reference.Districts.IndexOf(hit.transform.gameObject));
                     SwitchDistrict(Reference.Districts.IndexOf(hit.transform.gameObject));
-
                 }
 
-            }else
+            }
+            else
             {
                 DisableVFX();
             }

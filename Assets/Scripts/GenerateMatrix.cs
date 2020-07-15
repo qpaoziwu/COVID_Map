@@ -14,7 +14,7 @@ public class GenerateMatrix : MonoBehaviour
     private float spawnOffset = 1;
     public bool scatter;
     [SerializeField]
-    private GameObject ReferencePoint;
+    private GameObject ReferencePoint = null;
     [SerializeField]
     private List<GameObject> PointList = new List<GameObject>();
     [SerializeField]
