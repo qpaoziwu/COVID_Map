@@ -16,6 +16,16 @@ using UnityEngine.UI;
 /// </summary>
 public class cs_CSVData : MonoBehaviour
 {
+    [Header("Data")]
+
+    [Tooltip("All of the ''Case Count MM/DD/YYYY'' columns")]
+    public List<string> m_CSVDates;
+
+    [Tooltip("All districts with their names, selected date, selected case count, and all of the ''Case Count MM/DD/YYYY''s specific to that district")]
+    public List<Districts> m_CSVData;
+
+    [Header("Setup Inputs")]
+
     [Tooltip("Insert the link to the csv here")]
     public string m_CSVUrl;
 
@@ -24,12 +34,6 @@ public class cs_CSVData : MonoBehaviour
 
     [Tooltip("Insert text field to display the selected date\nMust be Text Mesh Pro")]
     public TMPro.TextMeshProUGUI sliderText;
-
-    [Tooltip("All of the ''Case Count MM/DD/YYYY'' columns")]
-    public List<string> m_CSVDates;
-
-    [Tooltip("All districts with their names, selected date, selected case count, and all of the ''Case Count MM/DD/YYYY''s specific to that district")]
-    public List<Districts> m_CSVData;
 
     private void Start()
     {
