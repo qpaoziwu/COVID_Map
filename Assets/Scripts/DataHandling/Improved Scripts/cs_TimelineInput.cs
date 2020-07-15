@@ -40,7 +40,6 @@ public class cs_TimelineInput : MonoBehaviour
         if (m_play.isOn == true)
         {
             m_playBack.isOn = false;
-
             if (m_timeline.value <= m_timeline.minValue)    // restarts the timeline if played at end
             {
                 m_timeline.value = m_timeline.maxValue;
@@ -55,7 +54,7 @@ public class cs_TimelineInput : MonoBehaviour
         }
         else
         {
-            StopCoroutine(Playing);
+            StopAllCoroutines();
         }
     }
 
@@ -77,6 +76,7 @@ public class cs_TimelineInput : MonoBehaviour
             {
                 if (m_loop.isOn == true)
                 {
+                    StopAllCoroutines();
                     m_timeline.value = m_timeline.maxValue;
 
                     Playing = Player();
@@ -113,7 +113,7 @@ public class cs_TimelineInput : MonoBehaviour
         }
         else
         {
-            StopCoroutine(PlayingBackward);
+            StopAllCoroutines();
         }
     }
 
@@ -137,6 +137,7 @@ public class cs_TimelineInput : MonoBehaviour
                 {
                     m_timeline.value = m_timeline.minValue;
 
+                    StopAllCoroutines();
                     PlayingBackward = PlayBacker();
                     StartCoroutine(PlayingBackward);
                 }
@@ -161,12 +162,12 @@ public class cs_TimelineInput : MonoBehaviour
 
         if (m_play.isOn == true)
         {
-            StopCoroutine(Playing);
+            StopAllCoroutines(); ;
             m_play.isOn = false;
         }
         else if (m_playBack.isOn == true)
         {
-            StopCoroutine(PlayingBackward);
+            StopAllCoroutines();
             m_playBack.isOn = false;
         }
     }
@@ -186,12 +187,12 @@ public class cs_TimelineInput : MonoBehaviour
 
         if (m_play.isOn == true)
         {
-            StopCoroutine(Playing);
+            StopAllCoroutines();
             m_play.isOn = false;
         }
         else if (m_playBack.isOn == true)
         {
-            StopCoroutine(PlayingBackward);
+            StopAllCoroutines();
             m_playBack.isOn = false;
         }
     }
@@ -207,13 +208,13 @@ public class cs_TimelineInput : MonoBehaviour
 
         if (m_play.isOn == true)    // restarts the coroutine from new value
         {
-            StopCoroutine(Playing);
+            StopAllCoroutines();
             Playing = Player();
             StartCoroutine(Playing);
         }
         else if (m_playBack.isOn == true)    // restarts the coroutine from new value
         {
-            StopCoroutine(PlayingBackward);
+            StopAllCoroutines();
             PlayingBackward = PlayBacker();
             StartCoroutine(PlayingBackward);
         }
@@ -230,16 +231,21 @@ public class cs_TimelineInput : MonoBehaviour
 
         if (m_play.isOn == true)    // restarts the coroutine from new value
         {
-            StopCoroutine(Playing);
+            StopAllCoroutines();
             Playing = Player();
             StartCoroutine(Playing);
         }
         else if (m_playBack.isOn == true)    // restarts the coroutine from new value
         {
-            StopCoroutine(PlayingBackward);
+            StopAllCoroutines();
             PlayingBackward = PlayBacker();
             StartCoroutine(PlayingBackward);
         }
     }
     #endregion
+
+    public void DeadStop()
+    {
+        StopAllCoroutines();
+    }
 }
