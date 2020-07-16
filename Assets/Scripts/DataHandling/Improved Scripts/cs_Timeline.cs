@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
 /// Alternate controls to the timeline complete with a play, play backward, skip forward, skip backward, max and min, and a loop button.
 /// </summary>
-public class cs_TimelineInput : MonoBehaviour
+public class cs_Timeline : MonoBehaviour
 {
     [Header("Options")]
 
@@ -27,8 +28,24 @@ public class cs_TimelineInput : MonoBehaviour
     [Tooltip("insert Loop Toggle")]
     public Toggle m_loop;
 
+    [Header("Visuals")]
+
+    [Tooltip("Two points to spawn between, place copies of tick sprite at beginning and end of timeline")]
+    public Transform[] m_tickPoints;
+
+    [Tooltip("Tick to duplicate\nChange this to image or sprite or whatever you need.\nBe sure to also change in duplicateTick()")]
+    public Image m_sprite;
+
+    [Tooltip("Insert the GameObject that cs_CSVData is attached to")]
+    public cs_CSVData csv;
+
+    [HideInInspector]
+    public int m_tickAmount; // the amount of tick points
+
     private IEnumerator Playing;
     private IEnumerator PlayingBackward;
+
+
 
     #region Play
     /// <summary>
@@ -244,6 +261,33 @@ public class cs_TimelineInput : MonoBehaviour
     }
     #endregion
 
+    /// <summary>
+    /// Starts the DuplicateTick() method
+    /// </summary>
+    public void SpawnTicks()
+    {
+        DuplicateTick(m_sprite, m_tickAmount);
+    }
+
+    /// <summary>
+    /// Duplicates ticks for the amount of dates in the CSV minus the two that are pre placed on the timeline
+    /// </summary>
+    private void DuplicateTick(Image original, int amount)      // If the tick file type is changed, set here
+    {
+        amount++;
+        for (int i = 0; i < m_tickPoints.Length - 1; i++)
+        {
+            for (int x = 1; x < amount; x++)
+            {
+                Vector3 position = m_tickPoints[i].position + x * (m_tickPoints[i + 1].position - m_tickPoints[i].position) / amount;
+                Instantiate(original, position, Quaternion.identity, transform.GetChild(0));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Stop all Coroutines
+    /// </summary>
     public void DeadStop()
     {
         StopAllCoroutines();

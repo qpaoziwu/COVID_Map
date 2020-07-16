@@ -30,7 +30,10 @@ public class cs_CSVData : MonoBehaviour
     public string m_CSVUrl;
 
     [Tooltip("Insert the timeline Slider\nSet the ''Direction'' to ''Right To Left''\nSet the ''Min Value'' to 0\nCheck the ''Whole Numbers'' box\nUse the ''On Value Changed(Single)'' event on the slider to call the ''SelectedData()'' method from this script")]
-    public Slider timeline;
+    public Slider m_timelineSlider;
+
+    [Tooltip("Insert the GameObject with the script cs_Timeline")]
+    public cs_Timeline m_timeline;
 
     [Tooltip("Insert text field to display the selected date\nMust be Text Mesh Pro")]
     public TMPro.TextMeshProUGUI sliderText;
@@ -101,13 +104,15 @@ public class cs_CSVData : MonoBehaviour
                     }
                     m_CSVData.Add(p_newData);       // add all of the district data to the "Districts" list
                     m_CSVData.Sort((x, y) => y.m_districtName.CompareTo(x.m_districtName));     //sorting the list in reverse alphabetical order
-                    timeline.maxValue = m_CSVDates.Count - 1;       //set the timeline value to the amount of "Case Count MM/DD/YYYY" columns. Always minus 1 because sliders don't recognize 0
-
-                    sliderText.text = m_CSVDates[(int)timeline.value]; int foundS1 = sliderText.text.IndexOf(" "); int foundS2 = sliderText.text.IndexOf(" ", foundS1 + 1); sliderText.text = sliderText.text.Remove(0, foundS2);       // very specific, finds the first and second space in the "Case Count MM/DD/YYYY" and deletes the string from the first character to the second space to only display the date string
                 }
             }
             #endregion
         }
+        m_timelineSlider.maxValue = m_CSVDates.Count - 1;       //set the timeline value to the amount of "Case Count MM/DD/YYYY" columns. Always minus 1 because sliders don't recognize 0
+        m_timeline.m_tickAmount = m_CSVDates.Count - 2;     // sets the amount of ticks on the timeline by amount of dates in CSV minus the two that are pre-placed
+        m_timeline.SpawnTicks();      // calls the spawn ticks method
+
+        sliderText.text = m_CSVDates[(int)m_timelineSlider.value]; int foundS1 = sliderText.text.IndexOf(" "); int foundS2 = sliderText.text.IndexOf(" ", foundS1 + 1); sliderText.text = sliderText.text.Remove(0, foundS2);       // very specific, finds the first and second space in the "Case Count MM/DD/YYYY" and deletes the string from the first character to the second space to only display the date string
     }
 
     /// <summary>
@@ -116,12 +121,12 @@ public class cs_CSVData : MonoBehaviour
     /// </summary>
     public void SelectedDate()
     {
-        sliderText.text = m_CSVDates[(int)timeline.value]; int foundS1 = sliderText.text.IndexOf(" "); int foundS2 = sliderText.text.IndexOf(" ", foundS1 + 1); sliderText.text = sliderText.text.Remove(0, foundS2);       // very specific, finds the first and second space in the "Case Count MM/DD/YYYY" and deletes the string from the first character to the second space to only display the date string
+        sliderText.text = m_CSVDates[(int)m_timelineSlider.value]; int foundS1 = sliderText.text.IndexOf(" "); int foundS2 = sliderText.text.IndexOf(" ", foundS1 + 1); sliderText.text = sliderText.text.Remove(0, foundS2);       // very specific, finds the first and second space in the "Case Count MM/DD/YYYY" and deletes the string from the first character to the second space to only display the date string
 
         foreach (Districts p_item in m_CSVData)
         {
-            p_item.m_casesBySelectedDate = p_item.m_caseCountBySelectedDate[(int)timeline.value].m_cases;       // updates the currently selected cases for all districts
-            p_item.m_dateSelected = p_item.m_caseCountBySelectedDate[(int)timeline.value].m_date;       // updates the currently selected date for all districts
+            p_item.m_casesBySelectedDate = p_item.m_caseCountBySelectedDate[(int)m_timelineSlider.value].m_cases;       // updates the currently selected cases for all districts
+            p_item.m_dateSelected = p_item.m_caseCountBySelectedDate[(int)m_timelineSlider.value].m_date;       // updates the currently selected date for all districts
         }
     }
 }
