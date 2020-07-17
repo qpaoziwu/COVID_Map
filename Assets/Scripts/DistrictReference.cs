@@ -13,7 +13,7 @@ public class DistrictReference : MonoBehaviour
 
     public int generatedPoints;
 
-    public cs_DataSets1 dataset1;
+    public cs_CSVData dataset1;
 
     [SerializeField]
     public List<DistrictRef> RefList = new List<DistrictRef>(); //Stored List 
@@ -51,7 +51,7 @@ public class DistrictReference : MonoBehaviour
     {
         for (int c = 0; c < RefList.Count - 1; c++)
         {
-            RefList[c].caseCount = dataset1.m_pulledData[c].m_caseCount;
+            RefList[c].caseCount = dataset1.m_CSVData[c].m_casesBySelectedDate;
         }
     }
 

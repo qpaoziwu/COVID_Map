@@ -37,6 +37,7 @@ public class cs_CSVData : MonoBehaviour
 
     [Tooltip("Insert text field to display the selected date\nMust be Text Mesh Pro")]
     public TMPro.TextMeshProUGUI sliderText;
+    public DistrictReference Reference = null;
 
     private void Start()
     {
@@ -113,6 +114,7 @@ public class cs_CSVData : MonoBehaviour
         m_timeline.SpawnTicks();      // calls the spawn ticks method
 
         sliderText.text = m_CSVDates[(int)m_timelineSlider.value]; int foundS1 = sliderText.text.IndexOf(" "); int foundS2 = sliderText.text.IndexOf(" ", foundS1 + 1); sliderText.text = sliderText.text.Remove(0, foundS2);       // very specific, finds the first and second space in the "Case Count MM/DD/YYYY" and deletes the string from the first character to the second space to only display the date string
+        Reference.UpdateCaseCount();
     }
 
     /// <summary>
@@ -128,6 +130,8 @@ public class cs_CSVData : MonoBehaviour
             p_item.m_casesBySelectedDate = p_item.m_caseCountBySelectedDate[(int)m_timelineSlider.value].m_cases;       // updates the currently selected cases for all districts
             p_item.m_dateSelected = p_item.m_caseCountBySelectedDate[(int)m_timelineSlider.value].m_date;       // updates the currently selected date for all districts
         }
+        Reference.UpdateCaseCount();
+
     }
 }
 
