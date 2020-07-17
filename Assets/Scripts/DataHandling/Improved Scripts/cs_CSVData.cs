@@ -11,12 +11,15 @@ using UnityEngine.UI;
 /// Requires a slider and TextMeshProUGUI
 /// Use a slider to navigate the different cases by date.
 /// 
-/// >>> RICHARD
-/// You will be referencing m_caseCountBySelectedDate
+/// >>> MAP
+/// Will be referencing m_caseCountBySelectedDate
 /// </summary>
 public class cs_CSVData : MonoBehaviour
 {
     [Header("Data")]
+
+    [Tooltip("The currently selected date")]
+    public string m_dateSelected;
 
     [Tooltip("All of the ''Case Count MM/DD/YYYY'' columns")]
     public List<string> m_CSVDates;
@@ -74,7 +77,7 @@ public class cs_CSVData : MonoBehaviour
                 if (p_row[1] != "")     // if list item doesn't have a valid name then skip
                 {
                     Districts p_newData = new Districts();
-                    p_newData.m_caseCountBySelectedDate = new List<Cases>();
+                    p_newData.m_caseCountByDate = new List<Cases>();
                     m_CSVDates = new List<string>();
 
                     for (int y = 0; y < p_row.Length; y++)
@@ -95,10 +98,10 @@ public class cs_CSVData : MonoBehaviour
                             int.TryParse(p_row[y], out p_amount);       // assigning an integer the case count
 
                             p_newCases.m_cases = p_amount;      // assigning the case count to each district
-                            p_newData.m_caseCountBySelectedDate.Add(p_newCases);        // adding the district information to the nested list "Cases" in "Districts"
+                            p_newData.m_caseCountByDate.Add(p_newCases);        // adding the district information to the nested list "Cases" in "Districts"
 
-                            p_newData.m_dateSelected = p_newData.m_caseCountBySelectedDate[0].m_date;       // makes the selected date on open current, which right now is the very first [0] "Case Count MM/DD/YYY" column in the csv
-                            p_newData.m_casesBySelectedDate = p_newData.m_caseCountBySelectedDate[0].m_cases;       // makes the selected cases on open current, which right now is the very first [0] "Case Count MM/DD/YYY" column in the csv
+                            m_dateSelected = p_newData.m_caseCountByDate[0].m_date;       // makes the selected date on open current, which right now is the very first [0] "Case Count MM/DD/YYY" column in the csv
+                            p_newData.m_casesBySelectedDate = p_newData.m_caseCountByDate[0].m_cases;       // makes the selected cases on open current, which right now is the very first [0] "Case Count MM/DD/YYY" column in the csv
                         }
 
                     }
@@ -125,8 +128,8 @@ public class cs_CSVData : MonoBehaviour
 
         foreach (Districts p_item in m_CSVData)
         {
-            p_item.m_casesBySelectedDate = p_item.m_caseCountBySelectedDate[(int)m_timelineSlider.value].m_cases;       // updates the currently selected cases for all districts
-            p_item.m_dateSelected = p_item.m_caseCountBySelectedDate[(int)m_timelineSlider.value].m_date;       // updates the currently selected date for all districts
+            p_item.m_casesBySelectedDate = p_item.m_caseCountByDate[(int)m_timelineSlider.value].m_cases;       // updates the currently selected cases for all districts
+            m_dateSelected = p_item.m_caseCountByDate[(int)m_timelineSlider.value].m_date;       // updates the currently selected date for all districts
         }
     }
 }
@@ -139,9 +142,8 @@ public class cs_CSVData : MonoBehaviour
 public class Districts
 {
     public string m_districtName;       // this district's name
-    public string m_dateSelected;       // the currently selected date
     public int m_casesBySelectedDate;       // the case count for the selected date in the district
-    public List<Cases> m_caseCountBySelectedDate; // a list of all of the cases per date for this district
+    public List<Cases> m_caseCountByDate; // a list of all of the cases per date for this district
 }
 
 /// <summary>

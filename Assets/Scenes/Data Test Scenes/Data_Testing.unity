@@ -1682,7 +1682,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -228.5, y: 0}
-  m_SizeDelta: {x: 10, y: 30}
+  m_SizeDelta: {x: 5, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &104632954
 MonoBehaviour:
@@ -9375,7 +9375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -20373,7 +20373,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 228.5, y: 0}
-  m_SizeDelta: {x: 10, y: 30}
+  m_SizeDelta: {x: 5, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1604586905
 MonoBehaviour:
@@ -24602,7 +24602,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -24662,9 +24662,9 @@ MonoBehaviour:
   m_tickPoints:
   - {fileID: 1604586904}
   - {fileID: 104632953}
-  m_tickAmount: 5
   m_sprite: {fileID: 1604586905}
   csv: {fileID: 114475328}
+  m_tickAmount: 5
 --- !u!1001 &2047977790
 PrefabInstance:
   m_ObjectHideFlags: 0
