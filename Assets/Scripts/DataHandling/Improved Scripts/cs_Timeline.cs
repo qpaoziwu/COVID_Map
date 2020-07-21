@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Alternate controls to the timeline complete with a play, play backward, skip forward, skip backward, max and min, and a loop button.
+/// Additional controls to the timeline complete with a play, play backward, skip forward, skip backward, max and min, and a loop button.
 /// </summary>
 public class cs_Timeline : MonoBehaviour
 {
@@ -16,8 +16,11 @@ public class cs_Timeline : MonoBehaviour
 
     [Header("Setup Inputs")]
 
+    [Tooltip("Insert the GameObject that cs_CSVData is attached to")]
+    public cs_CSVData csv;
+
     [Tooltip("Insert the Timeline")]
-    public Slider m_timeline;
+    public Slider m_timelineSlider;
 
     [Tooltip("Insert Play toggle")]
     public Toggle m_play;
@@ -34,10 +37,8 @@ public class cs_Timeline : MonoBehaviour
     public Transform[] m_tickPoints;
 
     [Tooltip("Tick to duplicate\nChange this to image or sprite or whatever you need.\nBe sure to also change in duplicateTick()")]
-    public Image m_sprite;
+    public Image m_image;
 
-    [Tooltip("Insert the GameObject that cs_CSVData is attached to")]
-    public cs_CSVData csv;
 
     [HideInInspector]
     public int m_tickAmount; // the amount of tick points
@@ -57,9 +58,9 @@ public class cs_Timeline : MonoBehaviour
         if (m_play.isOn == true)
         {
             m_playBack.isOn = false;
-            if (m_timeline.value <= m_timeline.minValue)    // restarts the timeline if played at end
+            if (m_timelineSlider.value <= m_timelineSlider.minValue)    // restarts the timeline if played at end
             {
-                m_timeline.value = m_timeline.maxValue;
+                m_timelineSlider.value = m_timelineSlider.maxValue;
                 Playing = Player();
                 StartCoroutine(Playing);
             }
@@ -83,18 +84,18 @@ public class cs_Timeline : MonoBehaviour
     {
         yield return new WaitForSeconds(m_seconds);
 
-        for (int i = 0; i < m_timeline.maxValue; i++)
+        for (int i = 0; i < m_timelineSlider.maxValue; i++)
         {
-            m_timeline.value--;
+            m_timelineSlider.value--;
 
             yield return new WaitForSeconds(m_seconds);
 
-            if (m_timeline.value <= m_timeline.minValue)
+            if (m_timelineSlider.value <= m_timelineSlider.minValue)
             {
                 if (m_loop.isOn == true)
                 {
                     StopAllCoroutines();
-                    m_timeline.value = m_timeline.maxValue;
+                    m_timelineSlider.value = m_timelineSlider.maxValue;
 
                     Playing = Player();
                     StartCoroutine(Playing);
@@ -116,9 +117,9 @@ public class cs_Timeline : MonoBehaviour
         if (m_playBack.isOn == true)
         {
             m_play.isOn = false;
-            if (m_timeline.value >= m_timeline.maxValue)    //restarts the timeline if played at beginning
+            if (m_timelineSlider.value >= m_timelineSlider.maxValue)    //restarts the timeline if played at beginning
             {
-                m_timeline.value = m_timeline.minValue;
+                m_timelineSlider.value = m_timelineSlider.minValue;
                 PlayingBackward = PlayBacker();
                 StartCoroutine(PlayingBackward);
             }
@@ -142,17 +143,17 @@ public class cs_Timeline : MonoBehaviour
     {
         yield return new WaitForSeconds(m_seconds);
 
-        for (int i = 0; i < m_timeline.maxValue; i++)
+        for (int i = 0; i < m_timelineSlider.maxValue; i++)
         {
-            m_timeline.value++;
+            m_timelineSlider.value++;
 
             yield return new WaitForSeconds(m_seconds);
 
-            if (m_timeline.value >= m_timeline.maxValue)
+            if (m_timelineSlider.value >= m_timelineSlider.maxValue)
             {
                 if (m_loop.isOn == true)
                 {
-                    m_timeline.value = m_timeline.minValue;
+                    m_timelineSlider.value = m_timelineSlider.minValue;
 
                     StopAllCoroutines();
                     PlayingBackward = PlayBacker();
@@ -171,11 +172,11 @@ public class cs_Timeline : MonoBehaviour
     /// </summary>
     public void SkipForward()
     {
-        if (m_timeline.value <= m_timeline.minValue)    // moves to beginning of timeline if at max value
+        if (m_timelineSlider.value <= m_timelineSlider.minValue)    // moves to beginning of timeline if at max value
         {
-            m_timeline.value = m_timeline.maxValue;
+            m_timelineSlider.value = m_timelineSlider.maxValue;
         }
-        else { m_timeline.value--; }
+        else { m_timelineSlider.value--; }
 
         if (m_play.isOn == true)
         {
@@ -196,11 +197,11 @@ public class cs_Timeline : MonoBehaviour
     /// </summary>
     public void SkipBackward()
     {
-        if (m_timeline.value >= m_timeline.maxValue)    // moves to end of timeline if at min value
+        if (m_timelineSlider.value >= m_timelineSlider.maxValue)    // moves to end of timeline if at min value
         {
-            m_timeline.value = m_timeline.minValue;
+            m_timelineSlider.value = m_timelineSlider.minValue;
         }
-        else { m_timeline.value++; }
+        else { m_timelineSlider.value++; }
 
         if (m_play.isOn == true)
         {
@@ -221,7 +222,7 @@ public class cs_Timeline : MonoBehaviour
     /// </summary>
     public void MaxForward()
     {
-        m_timeline.value = m_timeline.minValue;
+        m_timelineSlider.value = m_timelineSlider.minValue;
 
         if (m_play.isOn == true)    // restarts the coroutine from new value
         {
@@ -244,7 +245,7 @@ public class cs_Timeline : MonoBehaviour
     /// </summary>
     public void MaxBackward()
     {
-        m_timeline.value = m_timeline.maxValue;
+        m_timelineSlider.value = m_timelineSlider.maxValue;
 
         if (m_play.isOn == true)    // restarts the coroutine from new value
         {
@@ -266,7 +267,7 @@ public class cs_Timeline : MonoBehaviour
     /// </summary>
     public void SpawnTicks()
     {
-        DuplicateTick(m_sprite, m_tickAmount);
+        DuplicateTick(m_image, m_tickAmount);
     }
 
     /// <summary>

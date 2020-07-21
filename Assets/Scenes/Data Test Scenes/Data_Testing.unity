@@ -2041,11 +2041,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 280efc2cf27213743917bdf5ecc23933, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_dateSelected: 
   m_CSVDates: []
   m_CSVData: []
   m_CSVUrl: https://089d93ed-979f-46ae-a3d8-7fa7699115b6.filesusr.com/ugd/f3c206_aa710f9b5c08444ca14b30c0252b2620.csv?dn=CityofToronto_COVID-19_NeighbourhoodData
+  m_CSVHeaders:
+  - 
   m_timelineSlider: {fileID: 2030315134}
-  m_timeline: {fileID: 2030315135}
+  m_timelineScript: {fileID: 2030315135}
   sliderText: {fileID: 1905808422}
 --- !u!4 &114475329
 Transform:
@@ -24655,15 +24658,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_seconds: 0.5
-  m_timeline: {fileID: 2030315134}
+  csv: {fileID: 114475328}
+  m_timelineSlider: {fileID: 2030315134}
   m_play: {fileID: 1790123578}
   m_playBack: {fileID: 1450683387}
   m_loop: {fileID: 954579871}
   m_tickPoints:
   - {fileID: 1604586904}
   - {fileID: 104632953}
-  m_sprite: {fileID: 1604586905}
-  csv: {fileID: 114475328}
+  m_image: {fileID: 1604586905}
   m_tickAmount: 5
 --- !u!1001 &2047977790
 PrefabInstance:
