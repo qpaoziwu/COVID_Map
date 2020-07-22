@@ -10,16 +10,19 @@ public class Heatmap : MonoBehaviour
         RealtimeDataSetAnimated,
         TestDataSet
     };
+
     [SerializeField]
-    public DisplayMode Mode = DisplayMode.RealtimeDataSetStatic;
+    public DisplayMode displayMode = DisplayMode.RealtimeDataSetStatic;
 
     public DistrictReference Reference;
 
     //Material for Shader
-    public Material material;
+    public Material shaderMaterial;
 
     //Size of the total points
     public int count = 0;
+
+    [Header("Display Adjustments")]
 
     [SerializeField]
     [Range(0f, 5f)]
@@ -77,8 +80,8 @@ public class Heatmap : MonoBehaviour
         count = Reference.generatedPoints;
 
         //Setting shader variables
-        material.SetBuffer("_HeatData", buffer); //Sets it up on the shader
-        material.SetInt("_Count", count);
+        shaderMaterial.SetBuffer("_HeatData", buffer); //Sets it up on the shader
+        shaderMaterial.SetInt("_Count", count);
 
         //Reading all positions from Reference
         for (int i = 0; i < data.Length; i++)
@@ -143,11 +146,11 @@ public class Heatmap : MonoBehaviour
     }
     private float Intensity()
     {
-        if ((int)Mode == 0)
+        if ((int)displayMode == 0)
         {
-            return 1 * intensityRatio * 0.1f;
+            return 1 * intensityRatio * 0.1f * 0.8f;
         }
-        if ((int)Mode == 1 || (int)Mode == 2)
+        if ((int)displayMode == 1 || (int)displayMode == 2)
         {
             return 1 * intensityRatio * 0.1f * Mathf.Abs(Mathf.Clamp(Mathf.Sin(Time.time), 0.1f, 0.8f ));
         }
@@ -155,11 +158,11 @@ public class Heatmap : MonoBehaviour
     }
     private int CaseCount(int i)
     {
-        if ((int)Mode == 0|| (int)Mode == 1)
+        if ((int)displayMode == 0|| (int)displayMode == 1)
         {
             return Reference.RefList[i].caseCount;
         }
-        if ((int)Mode == 2)
+        if ((int)displayMode == 2)
         {
             return indexForDistricts;
         }

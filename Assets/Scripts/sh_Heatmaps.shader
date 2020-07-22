@@ -6,7 +6,7 @@
 	}
 
 	SubShader{
-		Tags{ "Queue" = "Transparent" "DisableBatching"="True"}
+		Tags{ "Queue" = "Transparent" "DisableBatching"="True" }
 		Blend SrcAlpha OneMinusSrcAlpha
 
 		Pass {

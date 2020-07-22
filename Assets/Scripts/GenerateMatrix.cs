@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GenerateMatrix : MonoBehaviour
 {
+    [Header("Spawn Settings")]
     [SerializeField]
     private int xQuantity = 1;
     [SerializeField]
@@ -20,6 +21,8 @@ public class GenerateMatrix : MonoBehaviour
     [SerializeField]
     private int spawnTarget;
     private Transform SpawnParent;
+    [Header("Spawn Results")]
+
     [SerializeField]
     private int count = 0;
     [SerializeField]

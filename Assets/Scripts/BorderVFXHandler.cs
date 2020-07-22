@@ -8,6 +8,8 @@ public class BorderVFXHandler : MonoBehaviour
     private ParticleSystem BorderVFX = null;
     [SerializeField]
     private DistrictReference Reference = null;
+    [SerializeField]
+    private MeshFilter BorderMesh = null;
 
     void Start()
     {
@@ -42,7 +44,8 @@ public class BorderVFXHandler : MonoBehaviour
     {
         DisableVFX();
         var borderShape = BorderVFX.shape;
-        borderShape.mesh = Reference.RefList[i].Border.GetComponent<MeshFilter>().mesh;
+        borderShape.mesh = Reference.RefList[i].Border.GetComponent<MeshFilter>().sharedMesh;
+        BorderMesh.mesh = Reference.RefList[i].Border.GetComponent<MeshFilter>().sharedMesh;
         BorderVFX.gameObject.SetActive(true);
     }
 
