@@ -10,6 +10,22 @@ public class BorderVFXHandler : MonoBehaviour
     private DistrictReference Reference = null;
     [SerializeField]
     private MeshFilter BorderMesh = null;
+    [SerializeField]
+    private RaycastHit clickHit;
+        [SerializeField]
+    private RaycastHit hoverHit;
+    [SerializeField]
+    private Material BorderMaterial = null;
+    [SerializeField]
+    private Material MouseOverMaterial = null;
+    [SerializeField]
+    private GameObject LastRaycastHit = null;
+    
+    [SerializeField]
+    private Ray clickRay;
+    
+    [SerializeField]
+    private Ray hoverRay;
 
     void Start()
     {
@@ -22,35 +38,64 @@ public class BorderVFXHandler : MonoBehaviour
     }
     void MouseInput()
     {
+        hoverRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 1000f, LayerMask.GetMask("Districts")))
-            {
-                if (Reference.Districts.Contains(hit.transform.gameObject))
-                {
-                    SwitchDistrict(Reference.Districts.IndexOf(hit.transform.gameObject));
-                }
+            clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+            if (Physics.Raycast(clickRay, out clickHit, 1000f, LayerMask.GetMask("Districts")))
+            {
+                if (Reference.Districts.Contains(clickHit.transform.gameObject))
+                {
+                    SwitchDistrict(Reference.Districts.IndexOf(clickHit.transform.gameObject));
+                }
             }
             else
             {
                 DisableVFX();
             }
         }
+        if (Physics.Raycast(hoverRay, out hoverHit, 1000f, LayerMask.GetMask("Districts")))
+        {
+            if(hoverHit.transform.gameObject)
+            {
+                if (Reference.Districts.Contains(hoverHit.transform.gameObject))
+                {
+                    MouseOverBorderVFX(hoverHit.transform.gameObject);
+                }
+            }
+        }else
+        {
+            Reference.RefList[Reference.Districts.IndexOf(LastRaycastHit)].Border.GetComponent<MeshRenderer>().material = BorderMaterial;
+        }
+
+    }
+
+    void MouseOverBorderVFX(GameObject raycastObj)
+    {
+        if(LastRaycastHit != null)
+        {
+            Reference.RefList[Reference.Districts.IndexOf(LastRaycastHit)].Border.GetComponent<MeshRenderer>().material = BorderMaterial;
+            Reference.RefList[Reference.Districts.IndexOf(raycastObj)].Border.GetComponent<MeshRenderer>().material = MouseOverMaterial;
+            LastRaycastHit = raycastObj;
+        }
     }
     void SwitchDistrict(int i)
     {
         DisableVFX();
         var borderShape = BorderVFX.shape;
-        borderShape.mesh = Reference.RefList[i].Border.GetComponent<MeshFilter>().sharedMesh;
         BorderMesh.mesh = Reference.RefList[i].Border.GetComponent<MeshFilter>().sharedMesh;
+        borderShape.mesh = Reference.RefList[i].Border.GetComponent<MeshFilter>().sharedMesh;
+        BorderMesh.gameObject.SetActive(true);
         BorderVFX.gameObject.SetActive(true);
+        BorderVFX.Play();
     }
 
     void DisableVFX()
     {
+        BorderVFX.Stop();
+        BorderMesh.gameObject.SetActive(false);
         BorderVFX.gameObject.SetActive(false);
     }
 
