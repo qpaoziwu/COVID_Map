@@ -10,13 +10,18 @@ using UnityEngine.UI;
 /// All data is pulled at start and the last column of cases by date is automatically selected.
 /// Requires a slider and TextMeshProUGUI
 /// Use a slider to navigate the different cases by date.
+/// There are lines in the script that are specific to the first prototype of the COVID Map 
+/// and may not serve a purpose moving forward, they will be marked as '1.0 specific'
 /// 
-/// >>> RICHARD
-/// You will be referencing m_caseCountBySelectedDate
+/// >>> MAP
+/// Will be referencing m_CSVData.m_caseCountBySelectedDate
 /// </summary>
 public class cs_CSVData : MonoBehaviour
 {
     [Header("Data")]
+
+    [Tooltip("The currently selected date")]
+    public string m_dateSelected;
 
     [Tooltip("All of the ''Case Count MM/DD/YYYY'' columns")]
     public List<string> m_CSVDates;
@@ -29,11 +34,14 @@ public class cs_CSVData : MonoBehaviour
     [Tooltip("Insert the link to the csv here")]
     public string m_CSVUrl;
 
+    [Tooltip("Coloumn Headers\nMust be a least 1 for 1.0 since it is automatically set on play")]
+    public string[] m_CSVHeaders;
+
     [Tooltip("Insert the timeline Slider\nSet the ''Direction'' to ''Right To Left''\nSet the ''Min Value'' to 0\nCheck the ''Whole Numbers'' box\nUse the ''On Value Changed(Single)'' event on the slider to call the ''SelectedData()'' method from this script")]
     public Slider m_timelineSlider;
 
     [Tooltip("Insert the GameObject with the script cs_Timeline")]
-    public cs_Timeline m_timeline;
+    public cs_Timeline m_timelineScript;
 
     [Tooltip("Insert text field to display the selected date\nMust be Text Mesh Pro")]
     public TMPro.TextMeshProUGUI sliderText;
@@ -75,14 +83,18 @@ public class cs_CSVData : MonoBehaviour
                 if (p_row[1] != "")     // if list item doesn't have a valid name then skip
                 {
                     Districts p_newData = new Districts();
-                    p_newData.m_caseCountBySelectedDate = new List<Cases>();
+                    p_newData.m_caseCountByDate = new List<Cases>();
                     m_CSVDates = new List<string>();
 
                     for (int y = 0; y < p_row.Length; y++)
                     {
                         Cases p_newCases = new Cases();
 
-                        if (p_dataHeaders[y] == "Neighbourhood Name")
+                        /* 1.0 specific */
+                        m_CSVHeaders[0] = p_dataHeaders[0];
+
+
+                        if (p_dataHeaders[y] == m_CSVHeaders[0]) // assigns the p_dataHeaders[y] as the first element in the m_csvHeaders array
                         {
                             p_newData.m_districtName = p_row[y];        // assign district names for every row under the "Neighbourhood Name" column
                         }
@@ -96,10 +108,11 @@ public class cs_CSVData : MonoBehaviour
                             int.TryParse(p_row[y], out p_amount);       // assigning an integer the case count
 
                             p_newCases.m_cases = p_amount;      // assigning the case count to each district
-                            p_newData.m_caseCountBySelectedDate.Add(p_newCases);        // adding the district information to the nested list "Cases" in "Districts"
+                            p_newData.m_caseCountByDate.Add(p_newCases);        // adding the district information to the nested list "Cases" in "Districts"
 
-                            p_newData.m_dateSelected = p_newData.m_caseCountBySelectedDate[0].m_date;       // makes the selected date on open current, which right now is the very first [0] "Case Count MM/DD/YYY" column in the csv
-                            p_newData.m_casesBySelectedDate = p_newData.m_caseCountBySelectedDate[0].m_cases;       // makes the selected cases on open current, which right now is the very first [0] "Case Count MM/DD/YYY" column in the csv
+                            m_dateSelected = p_newData.m_caseCountByDate[0].m_date;       // makes the selected date on open current, which for 1.0 is the first (0) "Case Count MM/DD/YYY" column in the csv
+                            p_newData.m_casesBySelectedDate = p_newData.m_caseCountByDate[0].m_cases;       // makes the selected cases on open current, which for 1.0 is the first (0) "Case Count MM/DD/YYY" column in the csv.
+                                                                                                            // If the newest data in the CSV is the last coloumn simply set the interger of the above two to '[p_newData.m_caseCountByDate.Count - 1]'
                         }
 
                     }
@@ -110,9 +123,10 @@ public class cs_CSVData : MonoBehaviour
             #endregion
         }
         m_timelineSlider.maxValue = m_CSVDates.Count - 1;       //set the timeline value to the amount of "Case Count MM/DD/YYYY" columns. Always minus 1 because sliders don't recognize 0
-        m_timeline.m_tickAmount = m_CSVDates.Count - 2;     // sets the amount of ticks on the timeline by amount of dates in CSV minus the two that are pre-placed
-        m_timeline.SpawnTicks();      // calls the spawn ticks method
+        m_timelineScript.m_tickAmount = m_CSVDates.Count - 2;     // sets the amount of ticks on the timeline by amount of dates in CSV minus the two that are pre-placed
+        m_timelineScript.SpawnTicks();      // calls the spawn ticks method
 
+        /* 1.0 specific */
         sliderText.text = m_CSVDates[(int)m_timelineSlider.value]; int foundS1 = sliderText.text.IndexOf(" "); int foundS2 = sliderText.text.IndexOf(" ", foundS1 + 1); sliderText.text = sliderText.text.Remove(0, foundS2);       // very specific, finds the first and second space in the "Case Count MM/DD/YYYY" and deletes the string from the first character to the second space to only display the date string
         Reference.UpdateCaseCount();
     }
@@ -123,12 +137,13 @@ public class cs_CSVData : MonoBehaviour
     /// </summary>
     public void SelectedDate()
     {
+        /* 1.0 specific */
         sliderText.text = m_CSVDates[(int)m_timelineSlider.value]; int foundS1 = sliderText.text.IndexOf(" "); int foundS2 = sliderText.text.IndexOf(" ", foundS1 + 1); sliderText.text = sliderText.text.Remove(0, foundS2);       // very specific, finds the first and second space in the "Case Count MM/DD/YYYY" and deletes the string from the first character to the second space to only display the date string
 
         foreach (Districts p_item in m_CSVData)
         {
-            p_item.m_casesBySelectedDate = p_item.m_caseCountBySelectedDate[(int)m_timelineSlider.value].m_cases;       // updates the currently selected cases for all districts
-            p_item.m_dateSelected = p_item.m_caseCountBySelectedDate[(int)m_timelineSlider.value].m_date;       // updates the currently selected date for all districts
+            p_item.m_casesBySelectedDate = p_item.m_caseCountByDate[(int)m_timelineSlider.value].m_cases;       // updates the currently selected cases for all districts
+            m_dateSelected = p_item.m_caseCountByDate[(int)m_timelineSlider.value].m_date;       // updates the currently selected date for all districts
         }
         Reference.UpdateCaseCount();
 
@@ -143,9 +158,8 @@ public class cs_CSVData : MonoBehaviour
 public class Districts
 {
     public string m_districtName;       // this district's name
-    public string m_dateSelected;       // the currently selected date
     public int m_casesBySelectedDate;       // the case count for the selected date in the district
-    public List<Cases> m_caseCountBySelectedDate; // a list of all of the cases per date for this district
+    public List<Cases> m_caseCountByDate; // a list of all of the cases per date for this district
 }
 
 /// <summary>
