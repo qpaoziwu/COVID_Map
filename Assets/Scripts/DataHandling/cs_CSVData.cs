@@ -27,6 +27,7 @@ public class cs_CSVData : MonoBehaviour
     public List<string> m_CSVDates;
 
     [Tooltip("All districts with their names, selected date, selected case count, and all of the ''Case Count MM/DD/YYYY''s specific to that district")]
+    [SerializeField]
     public List<Districts> m_CSVData;
 
     [Header("Setup Inputs")]
@@ -184,26 +185,27 @@ public class cs_CSVData : MonoBehaviour
             item.UpdateCases();     // updates the cases for the district cards
         }
     }
-}
 
 
-/// <summary>
-/// Holds all the city district's data
-/// </summary>
-[System.Serializable]
-public class Districts
-{
-    public string m_districtName;       // this district's name
-    public int m_casesBySelectedDate;       // the case count for the selected date in the district
-    public List<Cases> m_caseCountByDate; // a list of all of the cases per date for this district
-}
 
-/// <summary>
-/// Holds each district's seperate case count by date data
-/// </summary>
-[System.Serializable]
-public class Cases
-{
-    public string m_date;       // the date of the data
-    public int m_cases;     // the cases for this date in this district
+    /// <summary>
+    /// Holds all the city district's data
+    /// </summary>
+    [SerializeField, System.Serializable]
+    public class Districts
+    {
+        public string m_districtName;       // this district's name
+        public int m_casesBySelectedDate;       // the case count for the selected date in the district
+        public List<Cases> m_caseCountByDate; // a list of all of the cases per date for this district
+    }
+
+    /// <summary>
+    /// Holds each district's seperate case count by date data
+    /// </summary>
+    [System.Serializable]
+    public class Cases
+    {
+        public string m_date;       // the date of the data
+        public int m_cases;     // the cases for this date in this district
+    }
 }
