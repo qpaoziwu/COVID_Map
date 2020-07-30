@@ -59,9 +59,12 @@ public class cs_CSVData : MonoBehaviour
     [HideInInspector]
     public DistrictReference Reference = null;
 
+    public NeighborhoodList neighneigh;
+
     private void Start()
     {
         StartCoroutine(GetData());
+
     }
 
     /// <summary>
@@ -158,6 +161,8 @@ public class cs_CSVData : MonoBehaviour
                 }
             }
             cards = FindObjectsOfType<cs_DistrictCard>();
+            neighneigh = FindObjectOfType<NeighborhoodList>();
+            neighneigh.PopulateTheNeighborhoodList();
         }
     }
 
