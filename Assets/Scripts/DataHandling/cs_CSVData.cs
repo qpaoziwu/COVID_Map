@@ -45,6 +45,17 @@ public class cs_CSVData : MonoBehaviour
 
     [Tooltip("Insert text field to display the selected date\nMust be Text Mesh Pro")]
     public TMPro.TextMeshProUGUI sliderText;
+
+    [Tooltip("Insert the District Folder that is in the scene")]
+    public GameObject m_districtFolder;
+
+    [Tooltip("Insert the District Card prefab")]
+    public GameObject m_districtCard;
+
+    [HideInInspector]
+    public cs_DistrictCard[] cards;
+
+    [HideInInspector]
     public DistrictReference Reference = null;
 
     private void Start()
@@ -122,13 +133,31 @@ public class cs_CSVData : MonoBehaviour
             }
             #endregion
         }
-        m_timelineSlider.maxValue = m_CSVDates.Count - 1;       //set the timeline value to the amount of "Case Count MM/DD/YYYY" columns. Always minus 1 because sliders don't recognize 0
+        m_timelineSlider.maxValue = m_CSVDates.Count - 1;       // set the timeline value to the amount of "Case Count MM/DD/YYYY" columns. Always minus 1 because sliders don't recognize 0
         m_timelineScript.m_tickAmount = m_CSVDates.Count - 2;     // sets the amount of ticks on the timeline by amount of dates in CSV minus the two that are pre-placed
         m_timelineScript.SpawnTicks();      // calls the spawn ticks method
 
         /* 1.0 specific */
         sliderText.text = m_CSVDates[(int)m_timelineSlider.value]; int foundS1 = sliderText.text.IndexOf(" "); int foundS2 = sliderText.text.IndexOf(" ", foundS1 + 1); sliderText.text = sliderText.text.Remove(0, foundS2);       // very specific, finds the first and second space in the "Case Count MM/DD/YYYY" and deletes the string from the first character to the second space to only display the date string
-        Reference.UpdateCaseCount();
+
+        if (Reference != null)
+        {
+            Reference.UpdateCaseCount();        // updates the case count in the reference script
+        }
+
+        if (m_districtFolder != null)
+        {
+            foreach (Transform i in m_districtFolder.transform)
+            {
+                Vector3 pos = new Vector3(i.transform.position.x, i.transform.position.y + 7, i.transform.position.z);
+                Vector3 newPos = i.transform.TransformPoint(Vector3.up * 5);
+                if (m_districtCard != null)
+                {
+                    GameObject card = Instantiate(m_districtCard, newPos, Quaternion.identity, i.transform);
+                }
+            }
+            cards = FindObjectsOfType<cs_DistrictCard>();
+        }
     }
 
     /// <summary>
@@ -145,8 +174,15 @@ public class cs_CSVData : MonoBehaviour
             p_item.m_casesBySelectedDate = p_item.m_caseCountByDate[(int)m_timelineSlider.value].m_cases;       // updates the currently selected cases for all districts
             m_dateSelected = p_item.m_caseCountByDate[(int)m_timelineSlider.value].m_date;       // updates the currently selected date for all districts
         }
-        Reference.UpdateCaseCount();
+        if (Reference != null)
+        {
+            Reference.UpdateCaseCount();        // updates the case count in the reference script
+        }
 
+        foreach (cs_DistrictCard item in cards)
+        {
+            item.UpdateCases();     // updates the cases for the district cards
+        }
     }
 }
 
