@@ -33,39 +33,12 @@ public class DistrictReference : MonoBehaviour
         public GameObject Border;
         public List<Transform> Points = new List<Transform>();
     }
-
-    public DistrictRef FindDistByName(string name)
-    {
-        for (int i = 0; i < RefList.Count; i++)
-        {
-            if (RefList[i].distName == name)
-            {
-                return RefList[i];
-            }
-            break;
-        }
-        return null;
-    }
-
     public void UpdateCaseCount()
     {
         for (int c = 0; c < RefList.Count - 1; c++)
         {
             RefList[c].caseCount = dataset1.m_CSVData[c].m_casesBySelectedDate;
         }
-    }
-
-    public List<Transform> FindPointsByName(string name)
-    {
-        for (int i = 0; i < RefList.Count; i++)
-        {
-            if (RefList[i].distName== name)
-            {
-                return RefList[i].Points;
-            }
-            break;
-        }
-        return null;
     }
 
     void Awake()

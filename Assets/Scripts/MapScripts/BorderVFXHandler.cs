@@ -1,18 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class BorderVFXHandler : MonoBehaviour
 {
     [SerializeField]
     private ParticleSystem BorderVFX = null;
     [SerializeField]
     private DistrictReference Reference = null;
+        [SerializeField]
+    private CameraControl CameraControl = null;
     [SerializeField]
     private MeshFilter BorderMesh = null;
     [SerializeField]
     private RaycastHit clickHit;
-        [SerializeField]
+    [SerializeField]
     private RaycastHit hoverHit;
     [SerializeField]
     private Material BorderMaterial = null;
@@ -21,6 +22,7 @@ public class BorderVFXHandler : MonoBehaviour
     [SerializeField]
     private GameObject LastRaycastHit = null;
     
+    public GameObject LastClickedObject = null;
     [SerializeField]
     private Ray clickRay;
     
@@ -49,11 +51,16 @@ public class BorderVFXHandler : MonoBehaviour
                 if (Reference.Districts.Contains(clickHit.transform.gameObject))
                 {
                     SwitchDistrict(Reference.Districts.IndexOf(clickHit.transform.gameObject));
+                    LastClickedObject = clickHit.transform.gameObject;
+                    CameraControl.SwitchToZoom();
                 }
             }
             else
             {
                 DisableVFX();
+                LastClickedObject = null;
+                CameraControl.SwitchToFullMap();
+                CameraControl.resetCam = true;
             }
         }
         if (Physics.Raycast(hoverRay, out hoverHit, 1000f, LayerMask.GetMask("Districts")))
