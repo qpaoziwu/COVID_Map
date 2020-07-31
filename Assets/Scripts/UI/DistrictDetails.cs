@@ -1,24 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class DistrictDetails : MonoBehaviour
 {
+    [HideInInspector]
+    public string m_districtToBeCalled;
+    [HideInInspector]
+    public cs_CSVData m_csvData;
 
-    // Start is called before the first frame update
-    void Start()
+    public TextMeshProUGUI m_title;
+    public TextMeshProUGUI m_cases;
+    public TextMeshProUGUI m_deaths;
+    public TextMeshProUGUI m_recoveries;
+    public TextMeshProUGUI m_area;
+    public TextMeshProUGUI m_population;
+
+    private void Awake()
     {
-        
+        m_csvData = FindObjectOfType<cs_CSVData>();
     }
 
-    void UpdateDistrictDetails()
+    public void UpdateDistrictDetails()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        foreach (cs_CSVData.Districts i in m_csvData.m_CSVData)
+        {
+            if (m_districtToBeCalled == i.m_districtName.ToString())
+            {
+                m_title.text = i.m_districtName.ToString();
+                m_cases.text = i.m_casesBySelectedDate.ToString();
+            }
+        }
     }
 }

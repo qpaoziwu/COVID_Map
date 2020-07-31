@@ -17,7 +17,7 @@ public class cs_Timeline : MonoBehaviour
     [Header("Setup Inputs")]
 
     [Tooltip("Insert the GameObject that cs_CSVData is attached to")]
-    public cs_CSVData csv;
+    public cs_CSVData m_CSV;
 
     [Tooltip("Insert the Timeline")]
     public Slider m_timelineSlider;

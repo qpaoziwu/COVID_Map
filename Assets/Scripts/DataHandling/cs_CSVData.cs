@@ -53,14 +53,14 @@ public class cs_CSVData : MonoBehaviour
     [Tooltip("Insert the District Card prefab")]
     public GameObject m_districtCard;
 
+    [Tooltip("Insert the Drop Down List")]
+    public NeighborhoodList m_neighborhoodListUI;
+
     [HideInInspector]
     public cs_DistrictCard[] cards;
 
     [HideInInspector]
     public DistrictReference Reference = null;
-
-    public NeighborhoodList neighneigh;
-
     private void Start()
     {
         StartCoroutine(GetData());
@@ -161,8 +161,8 @@ public class cs_CSVData : MonoBehaviour
                 }
             }
             cards = FindObjectsOfType<cs_DistrictCard>();
-            neighneigh = FindObjectOfType<NeighborhoodList>();
-            neighneigh.PopulateTheNeighborhoodList();
+            m_neighborhoodListUI = FindObjectOfType<NeighborhoodList>();
+            m_neighborhoodListUI.PopulateTheNeighborhoodList();
         }
     }
 
