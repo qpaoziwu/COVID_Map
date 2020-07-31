@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343519539087185996}
   m_LocalRotation: {x: 0.7369717, y: 0.019452892, z: -0.021229109, w: 0.6753101}
-  m_LocalPosition: {x: -17, y: 260, z: 80}
+  m_LocalPosition: {x: -60, y: 300, z: 80}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1343519539219895377}
@@ -402,15 +402,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeCamera: {fileID: 1343519540778356103}
-  rotateSpeed: 1
+  rotateSpeed: 5
+  panSpeed: 5
   VFXHandler: {fileID: 0}
   currentMode: 0
   targetLocation: {fileID: 1343519539219895390}
+  targetPosition: {x: -60, y: 300, z: 80}
   cameraFullMap: {fileID: 1343519539087185996}
   cameraZoomed: {fileID: 1343519540778356103}
   zoomedCameraRig: {fileID: 1343519540744771935}
   TheCamera: {fileID: 1343519540737189042}
-  cameraMaxZoom: {x: 0, y: 60, z: -80}
+  cameraMaxZoom: {x: 0, y: 120, z: -120}
   resetCam: 0
   zoomLerp: 0
   Curve:
@@ -437,7 +439,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  targetRotation: {x: 0, y: 0, z: 0, w: 0}
+  targetRotation: {x: 0.6427876, y: 0, z: 0, w: 0.76604444}
 --- !u!1 &1343519540008579829
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,7 +688,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343519540778356103}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17, y: 260, z: 80}
+  m_LocalPosition: {x: -60, y: 300, z: 80}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1343519540744771934}

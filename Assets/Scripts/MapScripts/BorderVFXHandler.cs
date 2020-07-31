@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 public class BorderVFXHandler : MonoBehaviour
 {
     [SerializeField]
@@ -44,6 +45,8 @@ public class BorderVFXHandler : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            if(EventSystem.current.IsPointerOverGameObject())
+            return;
             clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(clickRay, out clickHit, 1000f, LayerMask.GetMask("Districts")))
@@ -65,6 +68,8 @@ public class BorderVFXHandler : MonoBehaviour
         }
         if (Physics.Raycast(hoverRay, out hoverHit, 1000f, LayerMask.GetMask("Districts")))
         {
+            if(EventSystem.current.IsPointerOverGameObject())
+            return;
             if(hoverHit.transform.gameObject)
             {
                 if (Reference.Districts.Contains(hoverHit.transform.gameObject))

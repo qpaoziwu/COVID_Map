@@ -13,14 +13,18 @@ public class CameraControl : MonoBehaviour
         Zoomed,
         Freelook
     };
-    [Range (0.1f, 1f), SerializeField]
+    [Range (0.1f, 5f), SerializeField]
     private float rotateSpeed = 1f;
+        [Range (1f, 5f), SerializeField]
+    private float panSpeed = 1f;
     [SerializeField]
     private BorderVFXHandler VFXHandler = null;
     [SerializeField]
     private ControlMode currentMode = ControlMode.FullMap;
     [SerializeField]
     private GameObject targetLocation = null;
+    [SerializeField]
+    private Vector3 targetPosition;
     [SerializeField]
     private GameObject cameraFullMap = null;
     [SerializeField]
@@ -30,7 +34,7 @@ public class CameraControl : MonoBehaviour
     [SerializeField]
     private GameObject TheCamera = null;
     [SerializeField]
-    private Vector3 cameraMaxZoom = new Vector3(0, 60, -80); 
+    private Vector3 cameraMaxZoom = new Vector3(0, 120, -160); 
     public bool resetCam;
     [Range (0f, 1f), SerializeField]
     public float zoomLerp = 1f;
@@ -39,10 +43,10 @@ public class CameraControl : MonoBehaviour
     private float cameraLerpTimer = 0f;
 
     [SerializeField]
-    private Quaternion targetRotation;
+    private Quaternion targetRotation = Quaternion.identity;
     private Quaternion eighty = Quaternion.Euler(80,0,0);
     private Quaternion fourfive = Quaternion.Euler(45,0,0);
-    private Quaternion zero = Quaternion.Euler(0,0,0);
+    private Quaternion zero = Quaternion.identity;
     void Update()
     {
     MoveCamera();
@@ -50,16 +54,6 @@ public class CameraControl : MonoBehaviour
 
     void MoveCamera()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f ) // forward
-        {
-            zoomLerp +=0.175f;
-        }             
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f ) // backwards
-        {
-            zoomLerp -=0.175f;
-        }
-        zoomLerp = Mathf.Clamp(zoomLerp, 0, 1);
-
         if((int)currentMode == 1)
         {
             if(resetCam)
@@ -70,7 +64,14 @@ public class CameraControl : MonoBehaviour
                 cameraLerpTimer = 0f;
                 resetCam = false;
             }
-
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f ) // forward
+            {
+                zoomLerp +=0.175f;
+            }             
+            if (Input.GetAxis("Mouse ScrollWheel") < 0f ) // backwards
+            {
+                zoomLerp -=0.175f;
+            }
             if(Input.GetMouseButton(1))
             {
                 if(Input.GetAxis("Mouse X")>0 ||Input.GetAxis("Mouse X")<0)
@@ -80,7 +81,8 @@ public class CameraControl : MonoBehaviour
             }
             if(Input.GetMouseButton(2))
             {
-                //targetLocation = 
+                Vector3 mouseInputOffset = new Vector3(Input.GetAxis("Mouse X"),0,Input.GetAxis("Mouse Y"));
+                targetPosition -= cameraZoomed.transform.TransformDirection(mouseInputOffset)*panSpeed;
             }
         }
 
@@ -89,16 +91,20 @@ public class CameraControl : MonoBehaviour
 
         }
 
-        cameraLerpTimer += Time.deltaTime;
+        zoomLerp = Mathf.Clamp(zoomLerp, 0, 1);
+        if(cameraLerpTimer<1f){
+        cameraLerpTimer += Time.deltaTime*0.5f;
+        }
         zoomedCameraRig.transform.localPosition = Vector3.Slerp(cameraMaxZoom, Vector3.zero, Curve.Evaluate(zoomLerp));
         TheCamera.transform.localRotation = Quaternion.Lerp(TheCamera.transform.localRotation,targetRotation, Curve.Evaluate(cameraLerpTimer));
-        activeCamera.transform.position = Vector3.Lerp(activeCamera.transform.position,targetLocation.transform.position,Curve.Evaluate(cameraLerpTimer));
+        activeCamera.transform.position = Vector3.Lerp(activeCamera.transform.position,targetPosition,Curve.Evaluate(cameraLerpTimer));
     }
 
     public void SwitchToFullMap()
     {
         cameraZoomed.transform.rotation = zero;
         targetLocation = cameraFullMap;
+        targetPosition = targetLocation.transform.position;
         targetRotation = eighty;
         cameraLerpTimer = 0f;
         zoomLerp = 0f;
@@ -107,6 +113,7 @@ public class CameraControl : MonoBehaviour
     public void SwitchToZoom()
     {
         targetLocation = VFXHandler.LastClickedObject;
+        targetPosition = targetLocation.transform.position;
         targetRotation = fourfive;
         cameraLerpTimer = 0f;
         currentMode = ControlMode.Zoomed;
