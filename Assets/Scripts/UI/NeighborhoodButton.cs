@@ -11,7 +11,7 @@ public class NeighborhoodButton : MonoBehaviour
     {
         m_detailPanel = FindObjectOfType<DistrictDetails>();
     }
-    public void Clicked()
+    public void Clicked()       // copy this for selecting district in map
     {
         m_detailPanel.m_districtToBeCalled = name.ToString();
         m_detailPanel.UpdateDistrictDetails();

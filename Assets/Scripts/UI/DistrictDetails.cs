@@ -22,7 +22,7 @@ public class DistrictDetails : MonoBehaviour
         m_csvData = FindObjectOfType<cs_CSVData>();
     }
 
-    public void UpdateDistrictDetails()
+    public void UpdateDistrictDetails()     // this is how we update the left panel
     {
         foreach (cs_CSVData.Districts i in m_csvData.m_CSVData)
         {
