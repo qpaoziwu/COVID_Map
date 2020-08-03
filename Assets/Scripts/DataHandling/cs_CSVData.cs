@@ -125,9 +125,9 @@ public class cs_CSVData : MonoBehaviour
                             p_newCases.m_cases = p_amount;      // assigning the case count to each district
                             p_newData.m_caseCountByDate.Add(p_newCases);        // adding the district information to the nested list "Cases" in "Districts"
 
-                            m_dateSelected = p_newData.m_caseCountByDate[0].m_date;       // makes the selected date on open current, which for 1.0 is the first (0) "Case Count MM/DD/YYY" column in the csv
-                            p_newData.m_casesBySelectedDate = p_newData.m_caseCountByDate[0].m_cases;       // makes the selected cases on open current, which for 1.0 is the first (0) "Case Count MM/DD/YYY" column in the csv.
-                                                                                                            // If the newest data in the CSV is the last coloumn simply set the interger of the above two to '[p_newData.m_caseCountByDate.Count - 1]'
+                            m_dateSelected = p_newData.m_caseCountByDate[p_newData.m_caseCountByDate.Count - 1].m_date;       // makes the selected date on open current, which for 1.0 is the first (0) "Case Count MM/DD/YYY" column in the csv
+                            p_newData.m_casesBySelectedDate = p_newData.m_caseCountByDate[p_newData.m_caseCountByDate.Count - 1].m_cases;       // makes the selected cases on open current, which for 1.0 is the first (0) "Case Count MM/DD/YYY" column in the csv.
+                                                                                                                                                // If the newest data in the CSV is the last coloumn simply set the interger of the above two to '[p_newData.m_caseCountByDate.Count - 1]'
                         }
 
                     }
@@ -138,6 +138,7 @@ public class cs_CSVData : MonoBehaviour
             #endregion
         }
         m_timelineSlider.maxValue = m_CSVDates.Count - 1;       // set the timeline value to the amount of "Case Count MM/DD/YYYY" columns. Always minus 1 because sliders don't recognize 0
+        m_timelineSlider.value = m_timelineSlider.maxValue;
         m_timelineScript.m_tickAmount = m_CSVDates.Count - 2;     // sets the amount of ticks on the timeline by amount of dates in CSV minus the two that are pre-placed
         m_timelineScript.SpawnTicks();      // calls the spawn ticks method
 
