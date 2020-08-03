@@ -13,7 +13,7 @@ public class NeighborhoodButton : MonoBehaviour
     }
     public void Clicked()
     {
-        m_detailPanel.UpdateDistrictDetails();
         m_detailPanel.m_districtToBeCalled = name.ToString();
+        m_detailPanel.UpdateDistrictDetails();
     }
 }
