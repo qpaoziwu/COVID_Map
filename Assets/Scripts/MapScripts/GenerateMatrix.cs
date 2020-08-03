@@ -15,10 +15,8 @@ public class GenerateMatrix : MonoBehaviour
     private float spawnOffset = 1;
     public bool scatter;
     [SerializeField]
-    private GameObject ReferencePoint = null;
-    [SerializeField]
+    private GameObject SpawnObject = null;
     private List<GameObject> PointList = new List<GameObject>();
-    [SerializeField]
     private int spawnTarget;
     private Transform SpawnParent;
     [Header("Spawn Results")]
@@ -42,7 +40,7 @@ public class GenerateMatrix : MonoBehaviour
 
                     if (RayBelow(checkPos))
                     {
-                        PointList.Add(Instantiate(ReferencePoint));
+                        PointList.Add(Instantiate(SpawnObject));
                         PointList[spawned].transform.position = checkPos;
                         PointList[spawned].transform.parent = SpawnParent.transform;
                         PointList[spawned].name = spawned.ToString();
@@ -71,10 +69,10 @@ public class GenerateMatrix : MonoBehaviour
     {
         if (scatter)
         {
-            return new Vector3(spawnOffset * x + Random.Range(-spawnOffset * .25f, spawnOffset * .25f), spawnOffset * z, spawnOffset * y + Random.Range(-spawnOffset * .25f, spawnOffset * .25f)) + ReferencePoint.transform.position;
+            return new Vector3(spawnOffset * x + Random.Range(-spawnOffset * .25f, spawnOffset * .25f), spawnOffset * z, spawnOffset * y + Random.Range(-spawnOffset * .25f, spawnOffset * .25f)) + SpawnObject.transform.position;
         }
         else
-            return new Vector3(spawnOffset * x, spawnOffset * z, spawnOffset * y) + ReferencePoint.transform.position;
+            return new Vector3(spawnOffset * x, spawnOffset * z, spawnOffset * y) + SpawnObject.transform.position;
     }
     // private IEnumerator Generate()
     // {

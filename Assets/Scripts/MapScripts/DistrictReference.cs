@@ -4,23 +4,24 @@ using UnityEngine;
 
 public class DistrictReference : MonoBehaviour
 {
-    [SerializeField]
-    public GameObject DistrictFolder; //Districts from scene
-    [SerializeField]
-    public GameObject BorderFolder; //Border from scene
-    [SerializeField]
-    public GameObject PointFolder; //Border from scene
-
+    [Header("Stored Info")]
     public int generatedPoints;
-
-    public cs_CSVData dataset1;
-
     [SerializeField]
     public List<DistrictRef> RefList = new List<DistrictRef>(); //Stored List 
     [SerializeField]
     public List<GameObject> Districts = new List<GameObject>(); //Stored Districts 
     [SerializeField]
     public List<GameObject> Borders = new List<GameObject>(); //Stored Borders 
+    [Header("References")]
+    [SerializeField]
+    public GameObject DistrictFolder; //Districts from scene
+    [SerializeField]
+    public GameObject BorderFolder; //Border from scene
+    [SerializeField]
+    public GameObject PointFolder; //Border from scene
+    public cs_CSVData dataset1;
+
+
 
 
     [SerializeField, System.Serializable]

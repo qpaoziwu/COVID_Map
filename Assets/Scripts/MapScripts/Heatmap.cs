@@ -6,32 +6,27 @@ public class Heatmap : MonoBehaviour
 {
     public enum DisplayMode
     {
+    [Tooltip("Display heatmap statically")]
         RealtimeDataSetStatic,
+    [Tooltip("Display heatmap from 0% to 100% looping")]
         RealtimeDataSetAnimated,
+    [Tooltip("For testing purposes")]
         TestDataSet
     };
-
+    
+    [Header("Display Settings")]
     [SerializeField]
+    [Tooltip("Swtich between different Display Mode")]
     public DisplayMode displayMode = DisplayMode.RealtimeDataSetStatic;
-
-    public DistrictReference Reference;
-
-    //Material for Shader
-    public Material shaderMaterial;
-
-    //Size of the total points
-    public int count = 0;
-
-    [Header("Display Adjustments")]
-
     [SerializeField]
+    [Tooltip("The radius of the Heatmap points")]
     [Range(0f, 5f)]
     private float radiusRatio = 2.5f;               //Increase the radius of each point 
-
     [SerializeField]
+    [Tooltip("The stepping intensity of the Heatmap points")]
     [Range(0f, 20f)]
     private float intensityRatio = 50f;             //Increase the stepping intensity
-
+    
     [StructLayout(LayoutKind.Sequential), System.Serializable] //So bit stream is fixed for the GPU
     [SerializeField]
     private struct HeatData                          //Data that are sent to the GPU
@@ -43,7 +38,6 @@ public class Heatmap : MonoBehaviour
         public float intensity;
         public static int size = System.Runtime.InteropServices.Marshal.SizeOf(typeof(HeatData)); //Needed for compute buffer
     }
-
     [System.Serializable, SerializeField]
     private struct StoredHeatData                     //Initial position of each point
     {
@@ -53,7 +47,15 @@ public class Heatmap : MonoBehaviour
         [Range(0f, 200f)]
         public float intensity;
     }
-
+    [Header("References")]
+    [Tooltip("Reference script that stores all the mesh info")]
+    public DistrictReference Reference;
+    //Material for Shader
+    [Tooltip("The Shader Material for the Heatmap")]
+    public Material shaderMaterial;
+    [Header("Debugging")]
+    [Tooltip("The total number of Heatmap points generated")]
+    public int count = 0;                             //Size of the total points
     [SerializeField]
     private HeatData[] data;                          //Data that are sent to the GPU
 
@@ -92,8 +94,7 @@ public class Heatmap : MonoBehaviour
             storedData[i].radius = data[i].radius;
             storedData[i].intensity = data[i].intensity;
         }
-        //SyncPointsByDistrict();
-
+        SyncPointsByDistrict();
         buffer.SetData(data); //SendsToShader, ***SETDATA() to change data
     }
 
@@ -152,13 +153,13 @@ public class Heatmap : MonoBehaviour
         }
         if ((int)displayMode == 1 || (int)displayMode == 2)
         {
-            return 1 * intensityRatio * 0.1f * Mathf.Abs(Mathf.Clamp(Mathf.Sin(Time.time), 0.1f, 0.8f ));
+            return 1 * intensityRatio * 0.1f * Mathf.Abs(Mathf.Clamp(Mathf.Sin(Time.time), 0.1f, 0.8f));
         }
         return 0;
     }
     private int CaseCount(int i)
     {
-        if ((int)displayMode == 0|| (int)displayMode == 1)
+        if ((int)displayMode == 0 || (int)displayMode == 1)
         {
             return Reference.RefList[i].caseCount;
         }
@@ -168,37 +169,30 @@ public class Heatmap : MonoBehaviour
         }
         return 0;
     }
-
-    
-    //Statically Randomize Every Point 
-    void ReadEveryPoints()
-    {
-        for (int i = 0; i < data.Length; i++)
-        {
-            //data[i].position = Reference.RefList[i].worldPos;
-            data[i].position = Reference.PointFolder.transform.GetChild(i).position;
-            data[i].radius = Random.value * this.transform.localScale.z;
-            data[i].intensity = Random.value * this.transform.localScale.z;
-
-            storedData[i].position = data[i].position;
-            storedData[i].radius = data[i].radius;
-            storedData[i].intensity = data[i].intensity;
-        }
-    }
-
-
     void OnDisable()
     {
-
         buffer.Dispose();
-
     }
     void OnApplicationQuit()
     {
         buffer.Dispose();
     }
 }
+    // //Statically Randomize Every Point 
+    // void ReadEveryPoints()
+    // {
+    //     for (int i = 0; i < data.Length; i++)
+    //     {
+    //         //data[i].position = Reference.RefList[i].worldPos;
+    //         data[i].position = Reference.PointFolder.transform.GetChild(i).position;
+    //         data[i].radius = Random.value * this.transform.localScale.z;
+    //         data[i].intensity = Random.value * this.transform.localScale.z;
 
+    //         storedData[i].position = data[i].position;
+    //         storedData[i].radius = data[i].radius;
+    //         storedData[i].intensity = data[i].intensity;
+    //     }
+    // }
 //Update buffer data each frame
 //for (int i = 0; i < data.Length; i++)
 //{

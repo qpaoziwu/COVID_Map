@@ -5,26 +5,27 @@ using UnityEngine;
 //[ExecuteInEditMode]
 public class CameraControl : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject activeCamera = null;
-    public enum ControlMode
+        public enum ControlMode
     {
         FullMap,
         Zoomed,
         Freelook
     };
+    [SerializeField]
+    private GameObject activeCamera = null;
+    [Header("Camera Settings")]
     [Range (0.1f, 5f), SerializeField]
     private float rotateSpeed = 1f;
-        [Range (1f, 5f), SerializeField]
+    [Range (1f, 5f), SerializeField]
     private float panSpeed = 1f;
     [SerializeField]
+    private AnimationCurve MotionCurve = null; 
+    [SerializeField]
+    private Vector3 cameraMaxZoom = new Vector3(0, 120, -120); 
+
+    [Header("References")]
+    [SerializeField]
     private BorderVFXHandler VFXHandler = null;
-    [SerializeField]
-    private ControlMode currentMode = ControlMode.FullMap;
-    [SerializeField]
-    private GameObject targetLocation = null;
-    [SerializeField]
-    private Vector3 targetPosition;
     [SerializeField]
     private GameObject cameraFullMap = null;
     [SerializeField]
@@ -33,13 +34,17 @@ public class CameraControl : MonoBehaviour
     private GameObject zoomedCameraRig = null;
     [SerializeField]
     private GameObject TheCamera = null;
+    [Header("Debugging")]
     [SerializeField]
-    private Vector3 cameraMaxZoom = new Vector3(0, 120, -160); 
+    private ControlMode currentMode = ControlMode.FullMap;
+    [SerializeField]
+    private GameObject targetLocation = null;
+    [SerializeField]
+    private Vector3 targetPosition;
     public bool resetCam;
     [Range (0f, 1f), SerializeField]
     public float zoomLerp = 1f;
-    [SerializeField]
-    private AnimationCurve Curve = null; 
+
     private float cameraLerpTimer = 0f;
 
     [SerializeField]
@@ -95,9 +100,9 @@ public class CameraControl : MonoBehaviour
         if(cameraLerpTimer<1f){
         cameraLerpTimer += Time.deltaTime*0.5f;
         }
-        zoomedCameraRig.transform.localPosition = Vector3.Slerp(cameraMaxZoom, Vector3.zero, Curve.Evaluate(zoomLerp));
-        TheCamera.transform.localRotation = Quaternion.Lerp(TheCamera.transform.localRotation,targetRotation, Curve.Evaluate(cameraLerpTimer));
-        activeCamera.transform.position = Vector3.Lerp(activeCamera.transform.position,targetPosition,Curve.Evaluate(cameraLerpTimer));
+        zoomedCameraRig.transform.localPosition = Vector3.Slerp(cameraMaxZoom, Vector3.zero, MotionCurve.Evaluate(zoomLerp));
+        TheCamera.transform.localRotation = Quaternion.Lerp(TheCamera.transform.localRotation,targetRotation, MotionCurve.Evaluate(cameraLerpTimer));
+        activeCamera.transform.position = Vector3.Lerp(activeCamera.transform.position,targetPosition,MotionCurve.Evaluate(cameraLerpTimer));
     }
 
     public void SwitchToFullMap()
