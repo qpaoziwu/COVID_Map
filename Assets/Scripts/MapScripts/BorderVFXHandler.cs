@@ -47,6 +47,10 @@ public class BorderVFXHandler : MonoBehaviour
     [SerializeField]
     [Tooltip("The highlighting border")]
     private MeshFilter BorderMesh = null;
+    [SerializeField]
+    private DistrictDetails m_detailPanel = null;
+
+
     void Start()
     {
         DisableVFX();//Reset VFX 
@@ -71,7 +75,8 @@ public class BorderVFXHandler : MonoBehaviour
                 if (Reference.Districts.Contains(clickHit.transform.gameObject))//If the object is in the reference
                 {
                     SwitchDistrict(Reference.Districts.IndexOf(clickHit.transform.gameObject));// Switch VFX to the object clicked
-
+                    m_detailPanel.m_districtToBeCalled = clickHit.transform.gameObject.name.ToString();
+                    m_detailPanel.UpdateDistrictDetails();
                     LastClickedObject = clickHit.transform.gameObject;// Change camera focus to clicked district
                     CameraControl.SwitchToZoom();// Swtich camera mode to zoomed
                 }
@@ -111,7 +116,7 @@ public class BorderVFXHandler : MonoBehaviour
             LastRaycastHit = raycastObj;
         }
     }
-    void SwitchDistrict(int i)
+    public void SwitchDistrict(int i)
     {//Turn off current VFX, change particle mesh to new, then play particles
         DisableVFX();
         var borderShape = BorderVFX.shape;
