@@ -113,13 +113,26 @@ PlayerSettings:
   vulkanNumSwapchainBuffers: 2
   vulkanEnableSetSRGBWrite: 0
   m_SupportedAspectRatios:
-    4:3: 1
-    5:4: 1
-    16:10: 1
+    4:3: 0
+    5:4: 0
+    16:10: 0
     16:9: 1
-    Others: 1
+    Others: 0
   bundleVersion: 0.1
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: -1562275218897716241, guid: ca4b8dff922c64847ae339a56c6ca792, type: 3}
+  - {fileID: -7969978266939365281, guid: 13c79bd7cddafdf40be728ee89a21411, type: 3}
+  - {fileID: -5582133695706433325, guid: 016964fec8ff5e34eb81d9da6dd2f0a8, type: 3}
+  - {fileID: -2628482395200241503, guid: b67fdb2b58a67c14fb6e1631945738f5, type: 3}
+  - {fileID: 7502377544057204969, guid: 41a442185a91f684781f2a3f60929f66, type: 3}
+  - {fileID: -888404026515264504, guid: 9ee9a065e870d0146b6e3337bc5734e9, type: 3}
+  - {fileID: -7821917557700976381, guid: afd7d4fc7a0615f468ff8246fca80ca8, type: 3}
+  - {fileID: 5270879433523947816, guid: 1944ff9fc28c49647bbc13c4a611f82f, type: 3}
+  - {fileID: -5787051826044892044, guid: d3b21ed9d49f2d448b5a4db307aabb42, type: 3}
+  - {fileID: 2693012856814855960, guid: 972e3ec30ac360f48a3e6143d62830fc, type: 3}
+  - {fileID: -6250710606382680247, guid: f35ea55cc8c432c4f8a33e55059ec09b, type: 3}
+  - {fileID: -3699778361200695240, guid: b261dac1bf856bf4f8de03727626eb8d, type: 3}
+  - {fileID: 3185973594663407288, guid: 9848ff2c00cc1484b87efe6f453aa7c0, type: 3}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
