@@ -58,9 +58,9 @@ public class cs_Timeline : MonoBehaviour
         if (m_play.isOn == true)
         {
             m_playBack.isOn = false;
-            if (m_timelineSlider.value <= m_timelineSlider.minValue)    // restarts the timeline if played at end
+            if (m_timelineSlider.value >= m_timelineSlider.maxValue)    // restarts the timeline if played at end
             {
-                m_timelineSlider.value = m_timelineSlider.maxValue;
+                m_timelineSlider.value = m_timelineSlider.minValue;
                 Playing = Player();
                 StartCoroutine(Playing);
             }
@@ -86,16 +86,16 @@ public class cs_Timeline : MonoBehaviour
 
         for (int i = 0; i < m_timelineSlider.maxValue; i++)
         {
-            m_timelineSlider.value--;
+            m_timelineSlider.value++;
 
             yield return new WaitForSeconds(m_seconds);
 
-            if (m_timelineSlider.value <= m_timelineSlider.minValue)
+            if (m_timelineSlider.value >= m_timelineSlider.maxValue)
             {
                 if (m_loop.isOn == true)
                 {
                     StopAllCoroutines();
-                    m_timelineSlider.value = m_timelineSlider.maxValue;
+                    m_timelineSlider.value = m_timelineSlider.minValue;
 
                     Playing = Player();
                     StartCoroutine(Playing);
@@ -117,9 +117,9 @@ public class cs_Timeline : MonoBehaviour
         if (m_playBack.isOn == true)
         {
             m_play.isOn = false;
-            if (m_timelineSlider.value >= m_timelineSlider.maxValue)    //restarts the timeline if played at beginning
+            if (m_timelineSlider.value <= m_timelineSlider.minValue)    //restarts the timeline if played at beginning
             {
-                m_timelineSlider.value = m_timelineSlider.minValue;
+                m_timelineSlider.value = m_timelineSlider.maxValue;
                 PlayingBackward = PlayBacker();
                 StartCoroutine(PlayingBackward);
             }
@@ -145,17 +145,17 @@ public class cs_Timeline : MonoBehaviour
 
         for (int i = 0; i < m_timelineSlider.maxValue; i++)
         {
-            m_timelineSlider.value++;
+            m_timelineSlider.value--;
 
             yield return new WaitForSeconds(m_seconds);
 
-            if (m_timelineSlider.value >= m_timelineSlider.maxValue)
+            if (m_timelineSlider.value <= m_timelineSlider.minValue)
             {
                 if (m_loop.isOn == true)
                 {
-                    m_timelineSlider.value = m_timelineSlider.minValue;
-
                     StopAllCoroutines();
+                    m_timelineSlider.value = m_timelineSlider.maxValue;
+
                     PlayingBackward = PlayBacker();
                     StartCoroutine(PlayingBackward);
                 }
@@ -172,11 +172,11 @@ public class cs_Timeline : MonoBehaviour
     /// </summary>
     public void SkipForward()
     {
-        if (m_timelineSlider.value <= m_timelineSlider.minValue)    // moves to beginning of timeline if at max value
+        if (m_timelineSlider.value >= m_timelineSlider.maxValue)    // moves to beginning of timeline if at max value
         {
-            m_timelineSlider.value = m_timelineSlider.maxValue;
+            m_timelineSlider.value = m_timelineSlider.minValue;
         }
-        else { m_timelineSlider.value--; }
+        else { m_timelineSlider.value++; }
 
         if (m_play.isOn == true)
         {
@@ -197,11 +197,11 @@ public class cs_Timeline : MonoBehaviour
     /// </summary>
     public void SkipBackward()
     {
-        if (m_timelineSlider.value >= m_timelineSlider.maxValue)    // moves to end of timeline if at min value
+        if (m_timelineSlider.value <= m_timelineSlider.minValue)    // moves to end of timeline if at min value
         {
-            m_timelineSlider.value = m_timelineSlider.minValue;
+            m_timelineSlider.value = m_timelineSlider.maxValue;
         }
-        else { m_timelineSlider.value++; }
+        else { m_timelineSlider.value--; }
 
         if (m_play.isOn == true)
         {
@@ -222,7 +222,7 @@ public class cs_Timeline : MonoBehaviour
     /// </summary>
     public void MaxForward()
     {
-        m_timelineSlider.value = m_timelineSlider.minValue;
+        m_timelineSlider.value = m_timelineSlider.maxValue;
 
         if (m_play.isOn == true)    // restarts the coroutine from new value
         {
@@ -245,7 +245,7 @@ public class cs_Timeline : MonoBehaviour
     /// </summary>
     public void MaxBackward()
     {
-        m_timelineSlider.value = m_timelineSlider.maxValue;
+        m_timelineSlider.value = m_timelineSlider.minValue;
 
         if (m_play.isOn == true)    // restarts the coroutine from new value
         {
