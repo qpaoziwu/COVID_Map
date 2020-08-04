@@ -6859,6 +6859,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 185512320}
   m_Mesh: {fileID: 193574856}
+--- !u!114 &185828103 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8811686727165341318, guid: e9d8eaa46050e3d499526e63e4c07d41,
+    type: 3}
+  m_PrefabInstance: {fileID: 595164933}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &188916674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24603,6 +24615,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1291547156, guid: e9d8eaa46050e3d499526e63e4c07d41, type: 3}
+      propertyPath: m_bottomBarTitle
+      value: 
+      objectReference: {fileID: 803094020}
+    - target: {fileID: 1291547156, guid: e9d8eaa46050e3d499526e63e4c07d41, type: 3}
+      propertyPath: m_bottomBarTitle2
+      value: 
+      objectReference: {fileID: 185828103}
     - target: {fileID: 2122610308, guid: e9d8eaa46050e3d499526e63e4c07d41, type: 3}
       propertyPath: m_csvData
       value: 
@@ -24850,22 +24870,32 @@ PrefabInstance:
     - target: {fileID: 7185933013478448989, guid: e9d8eaa46050e3d499526e63e4c07d41,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 0
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7185933013478448989, guid: e9d8eaa46050e3d499526e63e4c07d41,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7185933013478448989, guid: e9d8eaa46050e3d499526e63e4c07d41,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7185933013478448989, guid: e9d8eaa46050e3d499526e63e4c07d41,
         type: 3}
       propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7185933013478448989, guid: e9d8eaa46050e3d499526e63e4c07d41,
+        type: 3}
+      propertyPath: m_enableWordWrapping
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7185933013478448989, guid: e9d8eaa46050e3d499526e63e4c07d41,
+        type: 3}
+      propertyPath: m_overflowMode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7539838085531474731, guid: e9d8eaa46050e3d499526e63e4c07d41,
         type: 3}
@@ -40628,6 +40658,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f35ea55cc8c432c4f8a33e55059ec09b, type: 3}
+--- !u!114 &803094020 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7185933013478448989, guid: e9d8eaa46050e3d499526e63e4c07d41,
+    type: 3}
+  m_PrefabInstance: {fileID: 595164933}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &809267367
 MonoBehaviour:
   m_ObjectHideFlags: 0
