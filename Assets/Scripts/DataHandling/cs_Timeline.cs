@@ -39,14 +39,11 @@ public class cs_Timeline : MonoBehaviour
     [Tooltip("Tick to duplicate\nChange this to image or sprite or whatever you need.\nBe sure to also change in duplicateTick()")]
     public Image m_image;
 
-
     [HideInInspector]
     public int m_tickAmount; // the amount of tick points
 
     private IEnumerator Playing;
     private IEnumerator PlayingBackward;
-
-
 
     #region Play
     /// <summary>

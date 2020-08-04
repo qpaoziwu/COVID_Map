@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_csvData: {fileID: 0}
+  m_districtInfo: []
   m_neighborhoodList: {fileID: 4594346467211166187}
   m_neighborhoodButton: {fileID: 208681615058528274, guid: bcde0e8aeda939548bc4c5e2c23db862,
     type: 3}

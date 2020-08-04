@@ -162,9 +162,9 @@ public class cs_CSVData : MonoBehaviour
                 }
             }
             cards = FindObjectsOfType<cs_DistrictCard>();
-            m_neighborhoodListUI = FindObjectOfType<NeighborhoodList>();
-            m_neighborhoodListUI.PopulateTheNeighborhoodList();
         }
+        m_neighborhoodListUI = FindObjectOfType<NeighborhoodList>();
+        m_neighborhoodListUI.PopulateDistrictInfo();
     }
 
     /// <summary>
