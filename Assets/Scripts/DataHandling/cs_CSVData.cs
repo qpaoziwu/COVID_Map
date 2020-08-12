@@ -53,7 +53,7 @@ public class cs_CSVData : MonoBehaviour
     [Tooltip("Insert the District Card prefab")]
     public GameObject m_districtCard;
 
-    [Tooltip("Insert the Drop Down List")]
+    [HideInInspector]
     public NeighborhoodList m_neighborhoodListUI;
 
     [HideInInspector]
